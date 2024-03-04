@@ -214,6 +214,8 @@ Essa diferença é devido ao fato de que, se uma palavra aparecer várias vezes 
 
 ---
 
+A rede neural será alimentada pelo vetor one-hot (quais suas dimensões) e fará uma predição da probabilidade do texto associado ao one-hot ser uma mensagem positiva.
+
 **Aumentando a eficiência do treinamento com o uso da GPU T4**
 
 O código do notebook está preparado para executar tanto com ambiente usando CPU como com GPU, entretanto o ganho de velocidade está sendo reduzido de 45 segundos para 29 segundos que é um ganho muito aquém do esperado que seria ter um speedup entre 7 e 11 vezes dependendo da aplicação. Vamos entender a razão desta baixa eficiência e corrigir o problema.
@@ -222,3 +224,116 @@ A GPU é utilizada durante o treinamento do modelo, onde é utilizada a técnica
 
 
 ---
+
+## Exercício II.2:
+
+Com a o notebook configurado para GPU T4, meça o tempo de dois laços dentro do for da linha 13 (coloque um break após dois laços) e determine quanto demora demora para o passo de forward (linhas 14 a 18), para o backward (linhas 20, 21 e 22) e o tempo total de um laço. Faça as contas e identifique o trecho que é mais demorado. 
+
+### II.2.a) 
+
+|Momento| Tempo
+-|-
+Tempo do laço:| 128.39257717132568 ms
+Tempo do forward:| 1.8529891967773438 ms
+Tempo do backward:| 1.2031793594360352 ms
+
+(o tempo indicado é a média das duas execuções solicitadas)
+
+Conclusão: A demora principal está na execução da linha: 13 = `for inputs, targets in train_loader:`. Isso pode ser ainda mais explicitado calculando o tempo médio que demora para executá-la, 125.31495094299316 ms, que é praticamente o tempo inteiro do laço.
+
+### II.2.b) Trecho que precisa ser otimizado. (Esse é um problema bem mais difícil) A dica aqui é que precisa muito de conceitos de iterador e programação orientada a objetos.
+
+O trecho que precisa ser otimizado é o método `__getitem__` da classe `IMDBDataset`, visto que relizar o encoding de cada amostra sempre que é utilizada é custoso e está gerando o aumento no tempo.
+
+### II.2.c) Otimize o código e explique aqui.
+
+Uma solução simples para acelerar o código é realizar um cacheamento dos dados: todos os encodings são calculados anteriormente, e todos os targets são convertidos para tensores, e durante o treino é realizado apenas um acesso:
+
+```python
+class IMDBDataset(Dataset):
+    def __init__(self, split, vocab):
+        #if split == "train":
+        #
+        #  self.data = trainDataset
+        #else:
+        #  self.data = list(IMDB(split=split))
+        self.data = list(IMDB(split=split))
+
+        self.vocab = vocab
+
+        #####################
+        ##HERE
+        #####################
+        
+        # Cache data encoding and target
+        self.itens = []
+        for idx in range(len(self.data)):
+          target, line = self.data[idx]
+          target = 1 if target == 1 else 0
+
+          # one-hot encoding
+          X = torch.zeros(len(self.vocab) + 1)
+          for word in encode_sentence(line, self.vocab):
+              X[word] = 1
+
+          self.itens.append((X, torch.tensor(target)))
+          
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+
+        #####################
+        ##AND HERE
+        #####################
+
+
+        #Only retrieves data
+        return self.itens[idx]
+```
+
+Essa alteração diminui os tempo do laço de treino, gerando um speedup de ~20x:
+
+|Momento| Tempo anterior (ms) | Novo tempo (ms) | Speedup
+-|-|-|-
+Tempo do laço:| 128.39257717132568 | 6.272673606872559 | 20.468556985119445
+Tempo do forward:| 1.8529891967773438 | 1.9022226333618164 | ~ 1
+Tempo do backward:| 1.2031793594360352 | 1.0069608688354492 | ~ 1
+Tempo de acessar o dado: | 125.31495094299316 | 3.3473968505859375 | 37.43653846153846
+
+
+Como um dado é acessado várias vezes durante todo o processo de treino, isso irá gerar uma melhora na performance global (não apenas uma melhora no processo de treino, o que aconteceria se ele fosse acessado apenas 1 vez). 
+
+
+Para um dataset maior, é possível também paralelizar o cálculo dos encodings, que é custoso, visto que o tempo para criar o objeto do dataset aumentou para 26.34220790863037 s.
+
+---
+
+Após esta otimização, **é esperado que o tempo de processamento de cada época caia tanto para execução em CPU (da ordem de 10 segundos por época) como para GPU T4 (da ordem de 1 a 2 segundos por época)**. Isso utilizando as 25 mil amostras do dataset IMDB inteiro.
+
+Atenção: Se não conseguir atingir esse objetivo, procure árduamente entender com maiores detalhes o código. Esse exercício é fundamental para poder acompanhar o curso durante o semestre.
+
+Agora que a execução está bem mais otimizada em tempos de execução, modifique o início do notebook para ter novamente o dataset completo: 25 mil amostras e vamos analisar um outro fator importante que é a escolha do LR (Learning Rate)
+
+---
+
+**Escolhendo um bom valor de LR**
+
+## Exercício II.3:
+
+Faça a melhor escolha do LR, analisando o valor da acurácia no conjunto de teste, utilizando para cada valor de LR, a acurácia obtida. Faça um gráfico de Acurácia vs LR e escolha o LR que forneça a maior acurácia possível. Atenção, mantenha o número de épocas como 5.
+
+### II.3.a) Gráfico Acurácia vs LR
+
+Calculando a acurácia média em 5 treinos variando linearmente a taxa de treino entre 1E-6 e 1 com 10 elementos, e adicionando o valor "2" para verificar a influência de valores muito grandes, temos que a acurácia varia da seguinte forma:
+
+![](ImpactoDaTaxaDeTreino.png)
+
+
+### II.3.b) Valor ótimo do LR (para isso é desejável que o LR ótimo que forneça maior acurácia no conjunto de testes seja maior que usar um LR menor e um LR maior que o LR ótimo.)
+
+Observando os valores obtidos, temos que a acurácia é máxima para LR = 0.111112
+
+### II.3.c) Mostre a equação utilizada no gradiente descendente e qual é o papel do LR no ajuste dos parâmetros (weights) do modelo da rede neural.
+

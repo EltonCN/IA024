@@ -111,7 +111,7 @@ Total de tokens desconhecidos: 566141
 Código utilizado:
 
 ```python
-def count_unknow(sentence):
+def count_unknown(sentence):
   n_unknown = 0
   encoded_sentence = encode_sentence(sentence, vocab)
   for encoded_word in encoded_sentence:
@@ -125,7 +125,7 @@ total_unknown = 0
 for (target, line) in list(IMDB(split='train')):
   encode_sentence(line, vocab)
 
-  total_unknown += count_unknow(line)
+  total_unknown += count_unknown(line)
 
 print("Total de tokens desconhecidos:", total_unknown)
 ```
@@ -205,6 +205,8 @@ O dataset criado na linha 24
 
 
 ### II.1.b) Calcule também o número médio de palavras codificadas em cada vetor one-hot. Compare este valor com o comprimento médio de cada texto (contado em palavras), conforme calculado no exercício 
+
+DÚVIDA: falta II.1.a e I.?.c
 
 O número médio é X, o que é menor que o comprimento médio Y.
 
@@ -288,7 +290,6 @@ class IMDBDataset(Dataset):
         ##AND HERE
         #####################
 
-
         #Only retrieves data
         return self.itens[idx]
 ```
@@ -326,14 +327,232 @@ Faça a melhor escolha do LR, analisando o valor da acurácia no conjunto de tes
 
 ### II.3.a) Gráfico Acurácia vs LR
 
-Calculando a acurácia média em 5 treinos variando linearmente a taxa de treino entre 1E-6 e 1 com 10 elementos, e adicionando o valor "2" para verificar a influência de valores muito grandes, temos que a acurácia varia da seguinte forma:
+Calculando a acurácia média em 5 treinos variando a taxa de treino, temos que a acurácia varia da seguinte forma:
 
-![](ImpactoDaTaxaDeTreino.png)
+![](ImpactoDaTaxaDeTreino2.png)
 
 
 ### II.3.b) Valor ótimo do LR (para isso é desejável que o LR ótimo que forneça maior acurácia no conjunto de testes seja maior que usar um LR menor e um LR maior que o LR ótimo.)
 
-Observando os valores obtidos, temos que a acurácia é máxima para LR = 0.111112
+Observando os valores obtidos, temos que a acurácia é máxima para LR = 0.0005
 
 ### II.3.c) Mostre a equação utilizada no gradiente descendente e qual é o papel do LR no ajuste dos parâmetros (weights) do modelo da rede neural.
+
+A equação do gradiente descendente é:
+
+$$ 
+\vec{\theta}_{i+1} = \vec{\theta}_i - \text{LR} \nabla \vec{f}(\vec{\theta}_{i})
+$$
+
+em que:
+
+- $ \vec{\theta} $ são os parâmetros do modelo
+- $ \text{LR} $ é a taxa de treino
+- $ \vec{f} $ é a função de perda
+
+Pela equação, conseguimos perceber que a taxa de treino $\text{LR}$ tem como papel indicar a intensidade de cada atualização nos pesos. Ou seja, uma vez calcula a direção para a qual os pesos devem ser atualizados ($\nabla \vec{f}(\vec{\theta}_{i})$), ela indica o quanto eles devem ser levados nessa direção.
+
+Uma taxa muito baixa ocasiona em um treino lento, em que os pesos demoram muitas iterações para serem atualizados. Já uma taxa muita alta gera instabilidade, podendo fazer o processo de treino divergir.
+
+---
+
+**Otimizando o tokenizador**
+
+Agora que a convergência da Loss está melhor, vamos experimentar os parâmetros do tokenizador, isto é, como as palavras estão codificadas em tokens. 
+Observe novamente o vocab criado na parte I - Vocabulário e Tokenização. Perceba como as pontuações estão influenciando nos tokens criados e como o uso de letras maiúsculas e minúsculas também podem atrapalhar a consistência dos tokenizador em representar o significado semântico das palavras. Experimente rodar o encode_sentence com frases que tenham pontuações e letras maiúsculas e minúsculas. Baseado nessas informações, procure melhorar a forma de tokenizar o dataset.
+
+## Exercício II.4: 
+
+Melhores a forma de tokenizar, isto é, pré-processar o dataset de modo que a codificação seja indiferente das palavras serem escritas com maiúsculas ou minúsculas e sejam pouco influenciadas pelas pontuações.
+
+### II.4.a) Mostre os trechos modificados para este novo tokenizador, tanto na seção I - Vocabulário, como na seção II - Dataset.
+
+Nova função para limpar as amostras:
+
+```python
+def clean_text(text:str) -> str:
+  text = text.lower()
+
+  for punctuation in string.punctuation:
+    text = text.replace(punctuation, "")
+
+  return text
+```
+
+Alterado a geração do vocabulario para limpar as amostras:
+
+```python
+# limit the vocabulary size to 20000 most frequent tokens
+vocab_size = 20000
+
+counter = Counter()
+for (target, line) in list(IMDB(split='train')):
+    #AQUI↓################################
+    line = clean_text(line) 
+    #AQUI↑################################
+
+    counter.update(line.split())
+
+# create a vocabulary of the 20000 most frequent tokens
+most_frequent_words = sorted(counter, key=counter.get, reverse=True)[:vocab_size]
+vocab = {word: i for i, word in enumerate(most_frequent_words, 1)}
+vocab_size = len(vocab)
+```
+
+Alterado a codificação de sentenças para limpar o texto:
+
+```python
+def encode_sentence(sentence, vocab):
+  #AQUI↓################################
+  sentence = clean_text(sentence)
+  #AQUI↑################################
+
+  return [vocab.get(word, 0) for word in sentence.split()] # 0 for OOV
+```
+
+Não foram realizadas alterações na seção II.
+
+### II.4.b) Recalcule novamente os valores do exercício I.2.c - número de tokens unknown, e apresente uma tabela comparando os novos valores com os valores obtidos com o tokenizador original e justifique os resultados obtidos.
+
+
+566141 -> 137292
+
+DÚVIDA: falta responder dúvida da I.2.c
+
+### II.4.c) Execute agora no notebook inteiro com o novo tokenizador e veja o novo valor da acurácia obtido com a melhoria do tokenizador.
+
+A nova acurácia média (5 treinos) é de 61.9528%. Uma possível explicação para a diminuição na acurácia ???
+
+# III - DataLoader
+
+Vamos estudar agora o Data Loader da seção III do notebook. Em primeiro lugar anote a acurácia do notebook com as melhorias de eficiência de rodar em GPU, com ajustes de LR e do tokenizador. Em seguida mude o parâmetro shuffle
+na construção do objeto train_loader para False e execute novamente o notebook por completo e meça novamente a acurácia:
+
+Shuffle|Acurácia
+-|-
+True| 64.0944%
+False| 50.2104%
+
+
+Estude o método de minimização da Loss pelo gradiente descendente utilizado em redes neurais, utilizando processamento por batches. 
+Esse é um conceito muito importante. Veja no chatGPT qual é a relação da função Loss a ser minimizada no treinamento em função do batch size.
+
+## Exercícios III.1:
+
+### III.1.a) Explique as duas principais vantagens do uso de batch no treinamento de redes neurais.
+
+Primeira vantagem é em relação ao custo, já que o uso de batch permite o treino em dataset maiores, requerendo menos memória; e permite atualizar mais frequentemente o modelo, o que pode diminuir o tempo de treino.
+
+A segunda vantagem é na generalização do modelo: como o uso de batch 
+
+DÚVIDA: responder depois kkk
+
+### III.1.b) Explique por que é importante fazer o embaralhamento das amostras do batch em cada nova época.
+
+Embaralhar os batchs aumenta a robustez do treino e a generalização. Caso não sejam embaralhadas, os batchs podem conter padrões indesejáveis, como uma representação não homogênea das classes ou apenas padrões muito específicos nos dados, que seriam repetidos a toda epoch e que podem levar a rede a se manter presa em uma região do espaço de treinamento ou aprender estes padrões.
+
+### III.1.c) Se você alterar o shuffle=False no instanciamento do objeto test_loader, por que o cálculo da acurácia não se altera?
+
+Por que o cálculo da acurácia é feito sobre todo o dataset, independente da ordem dos dados. O uso de batchs neste caso apenas diminui os custos computacionais para realizar o cálculo.
+
+## Exercícios III.2
+
+### III.2.a) Faça um laço no objeto train_loader e meça quantas iterações o Loader tem. Mostre o código para calcular essas iterações. Explique o valor encontrado.
+
+Utilizando o seguinte código para calcular as iterações:
+
+```python
+i = 0
+for inputs, targets in train_loader:
+ i +=1 
+
+print("Iterações:", i)
+```
+Temos que são realizadas 196 iterações. Este valor é a quantidade de batchs em que o dataset é dividido, o teto da quantidade de elementos no conjunto de treino dividido pelo tamanho dos batchs:
+
+$$
+\lceil {||Treino|| \over \text{batch size}} \rceil
+$$
+
+### III.2.b) Imprima o número de amostras do último batch do train_loader e justifique o valor encontrado? Ele pode ser menor que o batch_size?
+
+O último batch possui 40 amostras, pois o conjunto de treino não é totalmente divisível. É comum que o último batch seja menor que `batch_size`, e não costuma gerar um problema significativo no processo de treino.
+
+### III.2.c) Calcule R, a relação do número de amostras positivas sobre o número de amostras no batch e no final encontre o valor médio de R, para ver se o data loader está entregando batches balanceados. Desta vez, em vez de fazer um laço explícito, utilize list comprehension para criar uma lista contendo a relação R de cada amostra no batch. No final, calcule a média dos elementos da lista para fornecer a resposta final.
+
+Código:
+
+```python
+R = [int(sum(targets))/len(targets) for  _, targets in train_loader]
+
+R_mean = np.mean(R)
+```
+
+Como resultado, obtemos que o R médio é  0.4998246173469388 ≈ 0.5. Portanto, o data loader está entregando batches balanceados.
+
+### III.2.d) Mostre a estrutura de um dos batches. Cada batch foi criado no método __getitem__ do Dataset, linha 20. É formado por uma tupla com o primeiro elemento sendo a codificação one-hot do texto e o segundo elemento o target esperado, indicando positivo ou negativo. Mostre o shape (linhas e colunas) e o tipo de dado (float ou integer), tanto da entrada da rede como do target esperado. Desta vez selecione um elemento do batch do train_loader utilizando as funções next e iter: batch = next(iter(train_loader)).
+
+A entrada possui shape [128, 20001] e é do tipo float32. Já a saída/target possui shape [128] e é do tipo int64.
+
+## Exercícios III.3:
+
+### III.3.a) Verifique a influência do batch size na acurácia final do modelo. Experimente usar um batch size de 1 amostra apenas e outro com mais de 512, preencha a tabela a seguir e comente sobre os resultados.
+
+-|batch_size = 1|batch_size = 128|batch_size = 512
+-|-|-|-
+Loss final da época 1|0.5815|0.6939|0.6937
+Loss final da época 5|0.0274|0.6880|0.6927
+
+Comentários: primeiramente podemos observar que não existe uma diferença significativa entre um tamanho de 128 ou 512. Porém, com apenas um elemento ocorre uma diminuição na performance. Existem duas possíveis explicações para isso: a primeira é que realizar o treino com apenas um elemento aumenta a estocasticidade do processo, pois a cada passo o erro gerado é completamente diferente e seu gradiente leva os parâmetros em um direção diferente. Utilizar vários elementos por batch diminui esse fenômeno, sendo o gradiente final uma média das direções de todos os elementos no batch.
+
+A segunda explicação é que, como o erro é calculado sobre apenas um elemento, ele em si indica a performance da rede sobre este elemento, não sobre os dados no geral. O resultado obtido possui alta estocasticidade, e poderia também ter sido maior que nos outros casos.
+
+# IV - Modelo MLP
+
+A célula da seção IV - Modelo é provavelmente uma das mais difíceis de entender, juntamente com a seção V - Treinamento, pois são onde aparecem as principais funções do PyTorch.
+
+Iremos utilizar uma rede neural de duas camadas ditas MLP (Multi-Layer Perceptron). São duas camadas lineares, fc1 e fc2. Essas camadas também são denominadas _fully connected_ para diferenciar de camadas convolucionais. As camadas são onde estão os parâmetros (_weights_) da rede neural. É importante estudar como estas camadas lineares funcionam, elas são compostas de neurônios que fazem uma média ponderada pelos parâmetros W_i mais uma constante B_i. Esses parâmetros são treinados para minimizar a função de Loss. Uma função não linear é colocada entre as camadas lineares. No caso, usamos a função ReLU (_Rectified Linear Unit_).
+
+Para entender o código da célula do Modelo MLP é fundamental conhecer os conceitos de orientação a objetos do Python. O modelo é definido pela classe `OneHotMLP` e é instanciado no objeto `model` na linha 16 que implementa o modelo da rede neural, recebendo uma entrada no formato one-hot e retornando o logito para ser posteriormente convertido em probabilidade do frase ser positiva ou negativa. O método `forward` será chamado automaticamente quando o objeto model for usado como função. Esses modelos são projetados para processar um batch de entrada de cada vez no formato devolvido pelo Data Loader visto na seção III (Exercício III.2.d)
+
+**Exercícios para experimentar o modelo**
+
+## Exercícios IV.1:
+
+### IV.1.a) Faça a predição do modelo utilizando um batch do train_loader: extraia um batch do train_loader, chame de (inputs, targets), onde input é a entrada da rede e target é a classe (positiva ou negativa) esperada. Como a rede está com seus parâmetros (weights) aleatórios, o logito de saída da rede será um valor aleatório, porém a chamada irá executar sem erros: `logits = model( inputs)`. Aplique a função sigmoidal ao logito para convertê-lo numa probabilidade de valor entre 0 e 1.
+
+Código:
+
+```python
+model = OneHotMLP(vocab_size)
+
+batch = next(iter(train_loader))
+(inputs, targets) = batch
+
+logits  = model(inputs)
+
+print(torch.sigmoid(logits).squeeze())
+```
+
+Resultado: 
+
+```
+tensor([0.4934, 0.5003, 0.4914, 0.4959, 0.4913, 0.4880, 0.4914, 0.4915, 0.4944,
+        0.4861, 0.4854, 0.4893, 0.4888, 0.4796, 0.4879, 0.4836, 0.4871, 0.4951,
+        0.4904, 0.4912, 0.4907, 0.4923, 0.4948, 0.4858, 0.4854, 0.4843, 0.4960,
+        0.4909, 0.4962, 0.4867, 0.4946, 0.4919, 0.4919, 0.4898, 0.4928, 0.4906,
+        0.4928, 0.4930, 0.4880, 0.4882, 0.4947, 0.4914, 0.4874, 0.4885, 0.4822,
+        0.4979, 0.4899, 0.4951, 0.4936, 0.4972, 0.4868, 0.4879, 0.4930, 0.4909,
+        0.4899, 0.4909, 0.4902, 0.4829, 0.4943, 0.4930, 0.4945, 0.4879, 0.4916,
+        0.4894, 0.4921, 0.4884, 0.4812, 0.4882, 0.4915, 0.4851, 0.4924, 0.4889,
+        0.4881, 0.4880, 0.4849, 0.4924, 0.4864, 0.4843, 0.4917, 0.4922, 0.4923,
+        0.4905, 0.4943, 0.4960, 0.4867, 0.4919, 0.4928, 0.4964, 0.4912, 0.4965,
+        0.4945, 0.4895, 0.4886, 0.4900, 0.4855, 0.4920, 0.4971, 0.4942, 0.4873,
+        0.4922, 0.4910, 0.4956, 0.4965, 0.4844, 0.4892, 0.4914, 0.4876, 0.4930,
+        0.4859, 0.4892, 0.4908, 0.4937, 0.4897, 0.4899, 0.4835, 0.4847, 0.4947,
+        0.4880, 0.4948, 0.4853, 0.4905, 0.4955, 0.4957, 0.4935, 0.4941, 0.4884,
+        0.4912, 0.4936], grad_fn=<SqueezeBackward0>)
+```
+
+### IV.1.b) Agora, treine a rede executando o notebook todo e verifique se a acurácia está alta. Agora repita o exercício anterior, porém agora, compare o valor da probabilidade encontrada com o `target` esperado e verifique se ele acertou. Você pode considerar que se a probabilidade for maior que 0.5, pode-se dar o target 1 e se for menor que 0.5, o target 0. Observe isso que é feito na linha 11 da seção **VI - Avaliação**. Calcule então a acurácia do modelo treinado no primeiro batch dos dados e mostre o código para calcular essa acurácia do primeiro batch e a acurácia obtida:
 

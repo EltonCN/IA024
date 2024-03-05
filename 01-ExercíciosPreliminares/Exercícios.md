@@ -103,9 +103,6 @@ O método `get(word, 0)` retornará "0" caso a palavra contida em `word` não es
 
 ### I.2.c) Calcule o número de unknown tokens no conjunto de treinamento e mostre o código de como ele foi calculado.
 
-DÚVIDA: A questão está perguntando quantas palavras em todas as sentenças não estão no vocabulário, ou quantas vezes aparece uma palavra em uma sentença que não está no vocabulário? (Ou seja, se uma mesma palavra desconhecida aparecer mais de uma vez, eu devo computar apenas a primeira vez que ela aparece ou todas as vezes que aparece?)
-
-
 Total de tokens desconhecidos: 566141
 
 Código utilizado:
@@ -199,16 +196,46 @@ Em primeiro lugar precisamos entender qual será a entrada da rede neural para d
 
 ### II.1.a) Investigue o dataset criado na linha 24. Faça um código que aplique um laço sobre o dataset train_data e calcule novamente quantas amostras positivas e negativas do dataset.
 
-DÚVIDA: preciso calcular as estatísticas para o dataset de treino original, ou o reduzido não enviesado criado na questão I.3?
+O dataset criado na linha 24 possui um total de:
 
-O dataset criado na linha 24
+- Amostras positivas: 100
+- Amostras negativas: 100
+- Total de amostras: 200
+- Média de palavras codificadas: 150.865 palavras
+
+Código utilizado:
+```python
+def print_info(dataset):
+
+  counterTarget = Counter()
+  meanN_Word = 0
+  nSentence = len(dataset)
+  for i in range(nSentence):
+    encoding, target = dataset[i]
+
+    if target == 0:
+      counterTarget.update("-")
+    else:
+      counterTarget.update("+")
+
+    meanN_Word += int(encoding.sum())
+
+  meanN_Word /= nSentence
+
+  print("Amostras positivas:", counterTarget["+"])
+  print("Amostras negativas:", counterTarget["-"])
+  print("Total de amostras:", nSentence)
+  print("Média de palavras codificadas:", meanN_Word, "palavras")
+
+print("TREINO")
+print_info(train_data)
+
+```
 
 
 ### II.1.b) Calcule também o número médio de palavras codificadas em cada vetor one-hot. Compare este valor com o comprimento médio de cada texto (contado em palavras), conforme calculado no exercício 
 
-DÚVIDA: falta II.1.a e I.?.c
-
-O número médio é X, o que é menor que o comprimento médio Y.
+O número médio de palavras codificadas é 150.865, menor que o número médio de palavras por sentença, 230.735.
 
 ### I.1.c) e explique a diferença.
 
@@ -254,11 +281,6 @@ Uma solução simples para acelerar o código é realizar um cacheamento dos dad
 ```python
 class IMDBDataset(Dataset):
     def __init__(self, split, vocab):
-        #if split == "train":
-        #
-        #  self.data = trainDataset
-        #else:
-        #  self.data = list(IMDB(split=split))
         self.data = list(IMDB(split=split))
 
         self.vocab = vocab
@@ -414,14 +436,12 @@ Não foram realizadas alterações na seção II.
 
 ### II.4.b) Recalcule novamente os valores do exercício I.2.c - número de tokens unknown, e apresente uma tabela comparando os novos valores com os valores obtidos com o tokenizador original e justifique os resultados obtidos.
 
+Temos uma redução de 75% dos tokens desconhecidos, de 566141 para 137292.
 
-566141 -> 137292
-
-DÚVIDA: falta responder dúvida da I.2.c
 
 ### II.4.c) Execute agora no notebook inteiro com o novo tokenizador e veja o novo valor da acurácia obtido com a melhoria do tokenizador.
 
-A nova acurácia média (5 treinos) é de 61.9528%. Uma possível explicação para a diminuição na acurácia ???
+A nova acurácia média (5 treinos) é de 61.9528%, indicando que não houve melhoria no resultado com o novo tokenizador.
 
 # III - DataLoader
 
@@ -443,9 +463,7 @@ Esse é um conceito muito importante. Veja no chatGPT qual é a relação da fun
 
 Primeira vantagem é em relação ao custo, já que o uso de batch permite o treino em dataset maiores, requerendo menos memória; e permite atualizar mais frequentemente o modelo, o que pode diminuir o tempo de treino.
 
-A segunda vantagem é na generalização do modelo: como o uso de batch 
-
-DÚVIDA: responder depois kkk
+A segunda vantagem é na generalização do modelo e treino: com o ruído adicionado utilizando batchs, visto que cada batch diferente gerará uma atualização que irá levar os parâmetros em uma direção diferente no espaço, isso permite o modelo a escapar de mínimos locais, evitando um fim prematuro no treinamento e aumentando a generalização.
 
 ### III.1.b) Explique por que é importante fazer o embaralhamento das amostras do batch em cada nova época.
 
@@ -556,3 +574,195 @@ tensor([0.4934, 0.5003, 0.4914, 0.4959, 0.4913, 0.4880, 0.4914, 0.4915, 0.4944,
 
 ### IV.1.b) Agora, treine a rede executando o notebook todo e verifique se a acurácia está alta. Agora repita o exercício anterior, porém agora, compare o valor da probabilidade encontrada com o `target` esperado e verifique se ele acertou. Você pode considerar que se a probabilidade for maior que 0.5, pode-se dar o target 1 e se for menor que 0.5, o target 0. Observe isso que é feito na linha 11 da seção **VI - Avaliação**. Calcule então a acurácia do modelo treinado no primeiro batch dos dados e mostre o código para calcular essa acurácia do primeiro batch e a acurácia obtida:
 
+Acurácia = 44.53125 %
+
+Código utilizado:
+
+```python
+num_epochs = 5
+for epoch in range(num_epochs):
+    start_time = time.time()  # Start time of the epoch
+    model.train()
+
+    correct = 0
+    total = 0
+
+    for inputs, targets in train_loader:
+
+        inputs = inputs.to(device)
+        targets = targets.to(device)
+
+        logits = model(inputs)
+        loss = criterion(logits.squeeze(), targets.float())
+
+
+        # Backward and optimize
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        predicted = torch.round(torch.sigmoid(logits.squeeze()))
+        total = targets.size(0)
+        correct = (predicted == targets).sum().item()
+
+        accuracy = correct / total
+
+        print(f"Acurácia = {100*accuracy} %")
+
+        break
+    
+    break
+
+
+```
+
+### IV.1.c) Número de parâmetros do modelo
+
+
+**Se você der um print no modelo: print(model), você obterá:**
+
+*`OneHotMLP(
+  (fc1): Linear(in_features=20001, out_features=200, bias=True)
+  (fc2): Linear(in_features=200, out_features=1, bias=True)
+  (relu): ReLU()
+)`
+
+**Os pesos da primeira camada podem ser visualizados com:**\
+`model.fc1.weight`
+**e o elemento constante (bias) pode ser visualizado com:**
+`model.fc1.bias`
+**Calcule o número de parâmetros do modelo, preenchendo a seguinte tabela (utilize shape para verificar a estrutura de cada parâmetro do modelo):**
+
+layer|fc1|fc1|fc2|fc2|Total
+-|-|-|-|-|-
+-|weight|bias|weight|bias|-
+size|4000200|200|200|1|4000601
+
+# V - Treinamento
+
+Agora vamos entrar na principal seção do notebook que minimiza a Loss para ajustar os pesos do modelo. 
+
+**Cálculo da Loss**
+
+A Loss é uma comparação entre a saída do modelo e o label (target). A Loss mais utilizada para problemas de classificação é a Entropia Cruzada. A equação da entropia cruzada para o caso binário (2 classes: 0 ou 1; True ou False) é dada por:
+
+![](./Figura%20V.1.png)
+
+Muitas vezes chamamos $y_i$ de target e $\hat{y_i}$ de prob.
+
+Quando a Loss é zero, significa que o modelo está predizendo tanto as amostras positivas como as amostras negativas com probabilidade de 100%. O objetivo é otimizar o modelo para conseguir minimizar a Loss ao máximo.
+
+A rede neural é o nosso modelo que recebe a entrada com um batch de amostras e retorna um batch de logitos.
+
+$$logits = model( inputs)$$
+
+para converter o logito em probabilidade, utiliza-se a função sigmóide que é dada pela equação:
+
+
+![](./Sigmoid-Equation.png)![](./Sigmoid-Plot.png)
+
+Assim, o código pytorch para estimarmos a probabilidade de um texto codificado no formato one-hot na variável input pode ser:
+
+$$probs = torch.sigmoid(logits)$$
+
+Atenção: observe que esses comandos estão processando todas as amostras no batch, que nesse notebook tem 128 amostras no batch size.
+
+## Exercícios V.1:
+
+### V.1.a) Qual é o valor teórico da Loss quando o modelo não está treinado, mas apenas inicializado? Isto é, a probabilidade predita tanto para a classe 0 como para a classe 1, é sempre 0,5 ? Justifique. Atenção: na equação da Entropia Cruzada utilize o logaritmo natural.
+
+Calculando primeiro a perda para uma amostra de cada classe: 
+
+$$
+L_0 = 0 \log(0.5) + (1-0)log(1-0.5) = log(0.5)
+$$
+
+$$
+L_1 = 1 \log(0.5) + (1-1)log(1-0.5) = log(0.5)
+$$
+
+Temos que seria a mesma, logo o somatório poderia ser reduzido:
+
+$$
+L_{máx} = -{1 \over N} \sum_{i=1}^N \log(0.5) = -{1\over N} N \log(0.5) = -\log(0.5)
+$$
+
+O que nos dá uma perda máxima de $L_{máx} = -\log(0.5) = -0.6931...$
+
+### 3.1.b) Utilize as amostras do primeiro batch: `(input,target) = next(iter(train_loader))` e calcule o valor da Loss utilizando apenas as operações da equação fornecida anteriormente utilizando o pytorch (operações de soma, subtração, multiplicação, divisão e log). Verifique se este valor é próximo do **valor teórico do exercício anterior.**
+
+O valor obtido é de 0.6939290165901184, coerente com o esperado teoricamente.
+
+Código utilizado:
+
+```python
+(input,target) = next(iter(train_loader))
+
+model = OneHotMLP(vocab_size)
+
+output = model(input)
+
+prob = torch.sigmoid(output.squeeze())
+
+L = torch.sum(
+    (target*torch.log(prob)) + 
+     ((1-target)*torch.log(1-prob))
+     )
+
+L *= -1/(len(target))
+
+print(L.item())
+```
+
+### V.1.c) O pytorch possui várias funções que facilitam o cálculo da Loss pela Entropia Cruzada. Utilize a classe `nn.BCELoss` (Binary Cross Entropy Loss). Você primeiro deve instanciar uma função da classe `nn.BCELoss`. Esta função instanciada recebe dois parâmetros (probs , targets) e retorna a Loss. Use a busca do Google para ver a documentação do `BCELoss` do pytorch. Calcule então a função de Loss da entropia cruzada, porém usando agora a função instanciada pelo `BCELoss` e **confira se o resultado é exatamente o mesmo obtido no exercício anterior.**
+
+A loss obtida é 0.6896450519561768, coerente com os valores anteriores.
+
+Código utilizado:
+```python
+(input,target) = next(iter(train_loader))
+
+model = OneHotMLP(vocab_size)
+
+logits = model(input)
+predicted = torch.sigmoid(logits.squeeze())
+
+loss = nn.BCELoss()
+
+print(loss(predicted, target.float()).item())
+```
+
+### V.1.d) Repita o mesmo exercício, porém agora usando a classe `nn.BCEWithLogitsLoss`, que é a opção utilizada no notebook. Observe que com essa classe o cálculo da Loss é feito com o logito sem precisar calcular a probabilidade. **O resultado da Loss deve igualar aos resultados anteriores.**
+
+A loss obtida desta vez é 0.6946419477462769, mais uma vez coerente.
+
+Código utilizado: 
+```python
+(input,target) = next(iter(train_loader))
+
+model = OneHotMLP(vocab_size)
+
+logits = model(input)
+
+loss = nn.BCEWithLogitsLoss()
+
+print(loss(logits.squeeze(), target.float()).item())
+```
+
+---
+**Minimização da Loss pelo gradiente descendente**
+
+Estude o método do gradiente descendente para minimizar uma função. Como curiosidade, pergunte ao chatGPT quando este método de minimização foi usado pela primeira vez. Aproveite e peça para ele explicar o método de uma maneira bem simples e ilustrativa. Peça para ele explicar qual é a forma moderna de se calcular computacionalmente o gradiente de uma função.
+Finalmente peça para ele explicar as linhas 3, 6, e (20, 21 e 22) do laço de treinamento.
+
+## Exercícios V.2:
+
+### V.2.a) Modifique a célula do laço de treinamento de modo que a primeira Loss a ser impressa seja a Loss com o modelo inicializado (isto é, sem nenhum treinamento), fornecendo a Loss esperada conforme os exercícios feitos anteriormente. Observe que desta forma, fica fácil verificar se o seu modelo está correto e a Loss está sendo calculada corretamente. 
+**Atenção**: Mantenha esse código da impressão do valor da Loss inicial, antes do treinamento, nesta célula, pois ela é sempre útil para verificar se não tem nada errado, antes de começar o treinamento.\
+Atenção: A Loss antes da época 0 deve ser calculada em todas as 25.000 amostras.
+
+Momento|Loss
+-|-
+Loss antes da época 0|
+Loss após época 0|
+Loss após época 5|

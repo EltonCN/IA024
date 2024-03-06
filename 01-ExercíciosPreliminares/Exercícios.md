@@ -1,14 +1,3 @@
-
-https://docs.google.com/document/d/1fjSqjM0mBkSIJrqFZJLfkoElMF13yl0log8hdwX339c/edit?pli=1
-https://colab.research.google.com/drive/1fcAZPcj-0XfFU0BmkcPdC7xwl-LbY2gG#scrollTo=APN8TsSrVXwB
-
-
-Leia o artigo: On the Opportunities and Risks of Foundation Models (Até a seção 1, página 12) e faça uma lista de tópicos que você achou importante. Em particular, aponte o que mudou desde a escrita do artigo em julho de 2022.
-
-Coloque o Link do arquivo PDF com a lista de tópicos e a sua resposta. (não exceder uma página)
-https://arxiv.org/pdf/2108.07258.pdf
-
-
 Elton Cardoso do Nascimento
 233840
 
@@ -351,12 +340,12 @@ Faça a melhor escolha do LR, analisando o valor da acurácia no conjunto de tes
 
 Calculando a acurácia média em 5 treinos variando a taxa de treino, temos que a acurácia varia da seguinte forma:
 
-![](ImpactoDaTaxaDeTreino2.png)
+![](ImpactoDaTaxaDeTreino.png)
 
 
 ### II.3.b) Valor ótimo do LR (para isso é desejável que o LR ótimo que forneça maior acurácia no conjunto de testes seja maior que usar um LR menor e um LR maior que o LR ótimo.)
 
-Observando os valores obtidos, temos que a acurácia é máxima para LR = 0.0005
+Observando os valores obtidos, temos que a acurácia é máxima para LR = 0.05
 
 ### II.3.c) Mostre a equação utilizada no gradiente descendente e qual é o papel do LR no ajuste dos parâmetros (weights) do modelo da rede neural.
 
@@ -368,9 +357,9 @@ $$
 
 em que:
 
-- $ \vec{\theta} $ são os parâmetros do modelo
-- $ \text{LR} $ é a taxa de treino
-- $ \vec{f} $ é a função de perda
+- $\vec{\theta}$ são os parâmetros do modelo
+- $\text{LR}$ é a taxa de treino
+- $\vec{f}$ é a função de perda
 
 Pela equação, conseguimos perceber que a taxa de treino $\text{LR}$ tem como papel indicar a intensidade de cada atualização nos pesos. Ou seja, uma vez calcula a direção para a qual os pesos devem ser atualizados ($\nabla \vec{f}(\vec{\theta}_{i})$), ela indica o quanto eles devem ser levados nessa direção.
 
@@ -441,7 +430,7 @@ Temos uma redução de 75% dos tokens desconhecidos, de 566141 para 137292.
 
 ### II.4.c) Execute agora no notebook inteiro com o novo tokenizador e veja o novo valor da acurácia obtido com a melhoria do tokenizador.
 
-A nova acurácia média (5 treinos) é de 61.9528%, indicando que não houve melhoria no resultado com o novo tokenizador.
+A nova acurácia média (5 treinos) é de 88.07%, indicando que houve uma pequena melhoria em relação à acurácia anterior de 86.32%
 
 # III - DataLoader
 
@@ -450,8 +439,8 @@ na construção do objeto train_loader para False e execute novamente o notebook
 
 Shuffle|Acurácia
 -|-
-True| 64.0944%
-False| 50.2104%
+True| 88.07%
+False| 50%
 
 
 Estude o método de minimização da Loss pelo gradiente descendente utilizado em redes neurais, utilizando processamento por batches. 
@@ -518,12 +507,12 @@ A entrada possui shape [128, 20001] e é do tipo float32. Já a saída/target po
 
 -|batch_size = 1|batch_size = 128|batch_size = 512
 -|-|-|-
-Loss final da época 1|0.5815|0.6939|0.6937
-Loss final da época 5|0.0274|0.6880|0.6927
+Loss final da época 1|0.0208|0.4220|0.6719
+Loss final da época 5|0.0000|0.2249|0.4117
 
-Comentários: primeiramente podemos observar que não existe uma diferença significativa entre um tamanho de 128 ou 512. Porém, com apenas um elemento ocorre uma diminuição na performance. Existem duas possíveis explicações para isso: a primeira é que realizar o treino com apenas um elemento aumenta a estocasticidade do processo, pois a cada passo o erro gerado é completamente diferente e seu gradiente leva os parâmetros em um direção diferente. Utilizar vários elementos por batch diminui esse fenômeno, sendo o gradiente final uma média das direções de todos os elementos no batch.
+Comentários: podemos primeiramente observar que, com um batch menor, a loss se torna cada vez maior. Uma possível explicação para isso é o fato de que o código disponibilizado reporta a loss apenas para o último batch de cada epoch, indicando a performance do modelo apenas neste elemento, não no conjunto total. É possível que a rede tenha se otimizado melhor para os elementos específicos presentes no batch, principalmente para o caso do batch unitário. Pode ser ainda possível que a rede tenha realmente "overfitado" para os elementos no conjunto de treino, devido a inexistência do ruído adicionado com batchs maiores. Uma outra explicação seria uma atualização mais frequente do modelo, treinando mais.
 
-A segunda explicação é que, como o erro é calculado sobre apenas um elemento, ele em si indica a performance da rede sobre este elemento, não sobre os dados no geral. O resultado obtido possui alta estocasticidade, e poderia também ter sido maior que nos outros casos.
+É importante notar que o treino com o batch unitário se mostrou consideravelmente mais lento do que nos outros casos.
 
 # IV - Modelo MLP
 
@@ -574,46 +563,20 @@ tensor([0.4934, 0.5003, 0.4914, 0.4959, 0.4913, 0.4880, 0.4914, 0.4915, 0.4944,
 
 ### IV.1.b) Agora, treine a rede executando o notebook todo e verifique se a acurácia está alta. Agora repita o exercício anterior, porém agora, compare o valor da probabilidade encontrada com o `target` esperado e verifique se ele acertou. Você pode considerar que se a probabilidade for maior que 0.5, pode-se dar o target 1 e se for menor que 0.5, o target 0. Observe isso que é feito na linha 11 da seção **VI - Avaliação**. Calcule então a acurácia do modelo treinado no primeiro batch dos dados e mostre o código para calcular essa acurácia do primeiro batch e a acurácia obtida:
 
-Acurácia = 44.53125 %
+Acurácia = 92.1875%
 
 Código utilizado:
 
 ```python
-num_epochs = 5
-for epoch in range(num_epochs):
-    start_time = time.time()  # Start time of the epoch
-    model.train()
+batch = next(iter(train_loader))
+(inputs, targets) = batch
 
-    correct = 0
-    total = 0
+logits  = model(inputs)
+predicted = torch.round(torch.sigmoid(logits.squeeze()))
+total = targets.size(0)
+correct = (predicted == targets).sum().item()
 
-    for inputs, targets in train_loader:
-
-        inputs = inputs.to(device)
-        targets = targets.to(device)
-
-        logits = model(inputs)
-        loss = criterion(logits.squeeze(), targets.float())
-
-
-        # Backward and optimize
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-
-        predicted = torch.round(torch.sigmoid(logits.squeeze()))
-        total = targets.size(0)
-        correct = (predicted == targets).sum().item()
-
-        accuracy = correct / total
-
-        print(f"Acurácia = {100*accuracy} %")
-
-        break
-    
-    break
-
-
+print(f'Accuracy: {100 * correct / total}%')
 ```
 
 ### IV.1.c) Número de parâmetros do modelo
@@ -687,9 +650,9 @@ $$
 L_{máx} = -{1 \over N} \sum_{i=1}^N \log(0.5) = -{1\over N} N \log(0.5) = -\log(0.5)
 $$
 
-O que nos dá uma perda máxima de $L_{máx} = -\log(0.5) = -0.6931...$
+O que nos dá uma perda máxima de $L_{máx} = -\log(0.5) = 0.6931...$
 
-### 3.1.b) Utilize as amostras do primeiro batch: `(input,target) = next(iter(train_loader))` e calcule o valor da Loss utilizando apenas as operações da equação fornecida anteriormente utilizando o pytorch (operações de soma, subtração, multiplicação, divisão e log). Verifique se este valor é próximo do **valor teórico do exercício anterior.**
+### V.1.b) Utilize as amostras do primeiro batch: `(input,target) = next(iter(train_loader))` e calcule o valor da Loss utilizando apenas as operações da equação fornecida anteriormente utilizando o pytorch (operações de soma, subtração, multiplicação, divisão e log). Verifique se este valor é próximo do **valor teórico do exercício anterior.**
 
 O valor obtido é de 0.6939290165901184, coerente com o esperado teoricamente.
 
@@ -763,6 +726,196 @@ Atenção: A Loss antes da época 0 deve ser calculada em todas as 25.000 amostr
 
 Momento|Loss
 -|-
-Loss antes da época 0|
-Loss após época 0|
-Loss após época 5|
+Loss antes da época 0| 0.6924
+Loss após época 0|  0.4612
+Loss após época 5| 0.2079
+
+### V.2.b) Execute a célula de treinamento por uma segunda vez e observe que a Loss continua diminuindo e o modelo está continuando a ser treinado. O que é necessário fazer para que o treinamento comece novamente do modelo aleatório? Qual(is) célula(s) é(são) preciso executar antes de executar o laço de treinamento novamente?
+
+Para começar novamente o treino com o modelo aleatório a forma mais simples é instanciar novamente ele, para isso sendo necessário executar a célula da seção "IV-Modelo", mais especificamente a linha `model = OneHotMLP(vocab_size)`.
+
+# VI - Avaliação
+
+Observe que o módulo de avaliação utiliza o `test_loader` que foi carregado do dataset IMDB especialmente preparado para fazer a avaliação.
+
+## Exercícios VI.1:
+
+### VI.1.a) Calcule o número de amostras que está sendo considerado na seção de avaliação.
+
+O dataset de teste possui 25000 amostras.
+
+Código:
+```python
+len(test_data)
+```
+
+### VI.1.b) Explique o que faz os comandos `model.eval()` e `with torch.no_grad()`.
+
+`model.eval()` é utilizado no momento de inferência (não treino) do modelo, pois algumas camadas possuem comportamento diferentes durante o treino. No caso este modelo provavelmente não terá um comportamento diferente com ou sem este comando, porém é uma boa prática sempre utilizá-lo.
+
+`with torch.no_grad()` indica que não é necessário calcular os gradientes das operações realizadas dentro deste contexto, acelerando as operações e diminuindo o uso de memória.
+
+### VI.1.c) Qual é uma forma mais simples de calcular a classe predita na linha 11, sem a necessidade de usar a função torch.sigmoid ou qualquer outra função do pytorch? (Dica: analise todos os comandos da linha 11 e veja qual é a simplificação possível e implemente-a e verifique se o valor da acurácia continua o mesmo)
+
+Como se deseja apenas saber se o valor é maior ou menor que 0, é possível simplificar a linha para:
+
+```python
+(logits.squeeze() > 0).float()
+```
+
+reduzindo o tempo da operação de 29.7 µs ± 7.71 µs para 23.2 µs ± 527 ns. Caso os dados posteriormente não precisem ser convertidos para float sendo apenas:
+
+```python
+logits.squeeze() > 0
+```
+
+a redução é ainda maior, para 14.3 µs ± 2.11 µs.
+
+Utilizando o código:
+
+```python
+inputs = inputs.to(device)
+targets = targets.to(device)
+logits = model(inputs)
+
+predicted = torch.round(torch.sigmoid(logits.squeeze()))
+predicted2 = (logits.squeeze() > 0).float()
+
+equal = (predicted != predicted2).sum() == 0
+equal = equal.item()
+
+print("É igual?", equal)
+```
+
+Saída: "É igual? True"
+
+podemos confirmar que ambos os códigos geram resultados equivalentes.
+
+
+---
+**Perplexidade como métrica de avaliação**
+
+Em teoria da informação, a perplexidade (PPL) é dada por
+
+![](./Perplexidade-Equação.png)
+
+onde $CE$ é a Cross Entropy, que utilizamos na Loss do treinamento. A base $e$ utilizada para a exponenciação deve ser compatível com a base utilizado no logaritmo da cross entropia. Como utilizamos logaritmo natural para a entropia cruzada, devemos aqui usar o e. Se a entropia cruzada usasse a base 2, a perplexidade seria 2 elevado à entropia cruzada.
+
+Eu, particularmente gosto de usar a perplexidade em vez de usar a entropia cruzada pelo motivo que ficará explícito nos exercícios a seguir:
+
+## Exercícios VI.2:
+
+### VI.2.a) Utilizando a resposta do exercício V.1.a, que é a Loss teórica de um modelo aleatório de 2 classes, qual é o valor da perplexidade?
+
+
+$$
+\text{PPL} = e^{ 0.6931} = 2
+$$
+
+A perplexidade tem valor teórico de 2.
+
+### VI.2.b) E se o modelo agora fosse para classificar a amostra em N classes, qual seria o valor da perplexidade para o caso aleatório?
+
+Analisando numericamente o comportamento da perda para o caso de N classes:
+
+```python
+loss = nn.CrossEntropyLoss()
+
+N_hist = list(range(1, 10))
+ppl_hist = []
+
+for N in N_hist:
+
+  output = torch.ones(N, dtype=torch.float)
+  
+  #Simétrico+média -> apenas 1 classe é necessário
+  target = torch.tensor(0, dtype=torch.int64) 
+
+  l = loss(output, target)
+  ppl = torch.exp(l)
+
+  ppl_hist.append(ppl.item())
+
+N_hist = np.array(N_hist)
+ppl_hist = np.array(ppl_hist)
+
+print(ppl_hist)
+```
+Saída: `[1.         2.         3.         4.         5.         6.
+ 6.99999952 8.         9.        ]`
+
+Vemos que o PPL se comportará como $N$ para o caso de N classes com um modelo aleatório.
+
+### VI.2.c) Qual é o valor da perplexidade quando o modelo acerta todas as classes com 100% de probabilidade?
+
+Caso o modelo acerte todas as classes corretamente, a loss será 0. Então a perplexidade será $e^0$ que é 1.
+
+---
+Se você respondeu corretamente as 3 questões acima, já é possível entender que a perplexidade é muito mais fácil de entender o seu significado do que o valor da Loss como entropia cruzada.
+
+## Exercícios VI.3:
+
+### VI.3.a) Modifique o código da seção **VI - Avaliação**, para que além de calcular a acurácia, calcule também a perplexidade. lembrar que `PPL = torch.exp(CE)`. Assim, será necessário calcular a entropia cruzada, como feito no laço de treinamento.
+
+Código modificado:
+
+```python
+model.eval()
+
+with torch.no_grad():
+    correct = 0
+    total = 0
+    total_loss = 0
+
+    for inputs, targets in test_loader:
+        inputs = inputs.to(device)
+        targets = targets.to(device)
+        logits = model(inputs)
+        predicted = torch.round(torch.sigmoid(logits.squeeze()))
+        total += targets.size(0)
+        correct += (predicted == targets).sum().item()
+
+        total_loss += criterion(logits.squeeze(), targets.float())*targets.size(0)
+
+    total_loss /= total
+    PPL = torch.exp(total_loss)
+
+
+    print(f'Test Accuracy: {100 * correct / total}%')
+    print("Perplexity:", PPL.item())
+```
+
+Saída:
+```
+Test Accuracy: 88.108%
+Perplexity: 1.337630271911621
+```
+
+### VI.3.b) Incorpore agora o código da seção VI - Avaliação, durante o laço de treinamento, de modo que após cada época de treinamento, os seguintes valores sejam calculados:
+
+- Laço de treinamento:
+  - Loss no conjunto de treinamento
+  - Perplexidade no conjunto de treinamento
+
+- Laço de validação:
+  - Loss no conjunto de teste
+  - Perplexidade no conjunto de teste
+  - Acurácia no conjunto de teste
+
+Feito isso, pode remover a seção VI- Avaliação do notebook a ser entregue.
+
+A versão final para entregar o notebook Colab 2 deve ter:
+- a versão original, porém com otimização para usar eficientemente a GPU
+- o tokenizador melhorado
+- LR ajustado
+- 5 épocas
+- laço de treino e validação juntos
+
+Remova os trechos que foram utilizados para os exercícios, que devem estar no notebook 1.
+
+**Comentários finais:**
+Se você conseguiu chegar até aqui, fazendo todos os exercícios, parabéns. Espero que você tenha aprendido vários conceitos importantes de treinamento de redes neurais. O valioso é que tudo o que foi visto aqui é válido tanto para modelos de alguns milhares de parâmetros como visto aqui até os modelos LLM da ordem de bilhões de parâmetros.
+Dominar técnicas de treinamento de modelos deep learning é possível apenas com muita experiência de programação e conceitos sólidos da teoria, que não é muita. É a teoria de minimização de funções pelo método do gradiente descendente. Ficou faltando entender como o gradiente é calculado, que é algo que o pytorch e outros ambientes similares conseguiram simplificar e deixá-lo quase imperceptível para o programador.
+Espero que você tenha aprendido com esses exercícios. Eles são uma amostra do que estudaremos e da forma como estudaremos no curso IA-024.
+Existem vários conceitos muito importantes que não tratamos aqui.
+Nesse curso não aceitamos alunos ouvintes, apenas alunos comprometidos com os exercícios e o aprendizado colaborativo com os colegas. Assim, a participação de todos será fundamental para o sucesso do curso.

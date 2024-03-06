@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Exercícios.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p>Elton Cardoso do Nascimento
+233840</p>
+<p>IA024 - Redes Neurais Profundas para Processamento de Linguagem Natural - 1s2024</p>
+<h1 id="i---vocabul%C3%A1rio-e-tokeniza%C3%A7%C3%A3o">I - Vocabulário e tokenização</h1>
+<h2 id="exerc%C3%ADcios-i1">Exercícios I.1</h2>
+<p>Na célula de calcular o vocabulário, aproveite o laço sobre IMDB de treinamento e utilize um segundo contador para calcular o número de amostras positivas e amostras negativas. Calcule também o comprimento médio do texto em número de palavras dos textos das amostras.</p>
+<p><strong>Respostas:</strong></p>
+<h3 id="i1a-a-modifica%C3%A7%C3%A3o-do-trecho-de-c%C3%B3digo">I.1.a) a modificação do trecho de código</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># limit the vocabulary size to 20000 most frequent tokens</span>
+vocab_size = <span class="hljs-number">20000</span>
+
+counter = Counter()
+counterTarget = Counter() <span class="hljs-comment"># NEW: counter for target</span>
+meanN_Word = <span class="hljs-number">0</span> <span class="hljs-comment"># NEW: mean words in a sentence</span>
+<span class="hljs-keyword">for</span> (target, line) <span class="hljs-keyword">in</span> list(IMDB(split=<span class="hljs-string">'train'</span>)):
+    words = line.split() <span class="hljs-comment"># NEW: avoid duplication</span>
+    counter.update(words) <span class="hljs-comment"># CHANGED: use words variable</span>
+
+    <span class="hljs-comment"># NEW: Update target counter</span>
+    <span class="hljs-keyword">if</span> target == <span class="hljs-number">1</span>: 
+      counterTarget.update(<span class="hljs-string">"-"</span>)
+    <span class="hljs-keyword">else</span>:
+      counterTarget.update(<span class="hljs-string">"+"</span>)
+
+    meanN_Word += len(words) <span class="hljs-comment"># NEW: add the sentence lenght</span>
+
+nTrain = len(list(IMDB(split=<span class="hljs-string">'train'</span>))) <span class="hljs-comment"># NEW: store size of train dataset</span>
+meanN_Word /= nTrain <span class="hljs-comment"># NEW: compute mean words per sentence</span>
+
+<span class="hljs-comment"># create a vocabulary of the 20000 most frequent tokens</span>
+most_frequent_words = sorted(counter, key=counter.get, reverse=<span class="hljs-literal">True</span>)[:vocab_size]
+vocab = {word: i <span class="hljs-keyword">for</span> i, word <span class="hljs-keyword">in</span> enumerate(most_frequent_words, <span class="hljs-number">1</span>)}
+vocab_size = len(vocab)
+
+<span class="hljs-comment"># NEW: print required results</span>
+print(<span class="hljs-string">"Amostras positivas:"</span>, counterTarget[<span class="hljs-string">"+"</span>])
+print(<span class="hljs-string">"Amostras negativas:"</span>, counterTarget[<span class="hljs-string">"-"</span>])
+print(<span class="hljs-string">"Total de amostras:"</span>, nTrain)
+print(<span class="hljs-string">"Comprimento médio:"</span>, meanN_Word, <span class="hljs-string">"palavras"</span>)
+</div></code></pre>
+<h3 id="i1b-n%C3%BAmero-de-amostras-positivas-amostras-negativas-e-amostras-totais">I.1.b) número de amostras positivas, amostras negativas e amostras totais</h3>
+<p>Amostras positivas: 12500<br>
+Amostras negativas: 12500<br>
+Total de amostras: 25000</p>
+<h3 id="i1c-comprimento-m%C3%A9dio-dos-textos-das-amostras-em-n%C3%BAmero-de-palavras">I.1.c) comprimento médio dos textos das amostras (em número de palavras)</h3>
+<p>Comprimento médio: 233.7872 palavras</p>
+<h2 id="exerc%C3%ADcios-i2">Exercícios I.2</h2>
+<p>As linhas 9 e 10 da célula do vocabulário são linhas típicas de programação python em listas com dicionários com laços na forma compreensão de listas ou list comprehension em inglês. Procure analisar e estudar profundamente o uso de lista e dicionário do python. Estude também a função encode_sentence.</p>
+<p>Mostre as cinco palavras mais frequentes do vocabulário e as cinco palavras menos frequentes. Qual é o código do token que está sendo utilizado quando a palavra não está no vocabulário? Calcule quantos tokens das frases do conjunto de treinamento que não estão no vocabulário.</p>
+<p><strong>Respostas:</strong></p>
+<h3 id="i2a-cinco-palavras-mais-frequentes-e-as-cinco-menos-frequentes-mostre-o-c%C3%B3digo-utilizado-usando-fatiamento-de-listas-list-slicing">I.2.a) Cinco palavras mais frequentes, e as cinco menos frequentes. Mostre o código utilizado, usando fatiamento de listas (list slicing).</h3>
+<p>5 palavras mais frequentes: ['the', 'a', 'and', 'of', 'to']<br>
+5 palavras menos frequentes: ['age-old', 'place!', 'Bros', 'tossing', 'nation,']</p>
+<p>Código:</p>
+<pre class="hljs"><code><div>print(<span class="hljs-string">"5 palavras mais frequentes:"</span>, most_frequent_words[:<span class="hljs-number">5</span>])
+print(<span class="hljs-string">"5 palavras menos frequentes:"</span>, most_frequent_words[<span class="hljs-number">-5</span>:])
+</div></code></pre>
+<h3 id="i2b-explique-onde-est%C3%A1-a-codifica%C3%A7%C3%A3o-que-atribui-o-c%C3%B3digo-de-%22unknown-token%22-e-qual-%C3%A9-esse-c%C3%B3digo">I.2.b) Explique onde está a codificação que atribui o código de &quot;unknown token&quot; e qual é esse código.</h3>
+<p>Na linha</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">return</span> [vocab.get(word, <span class="hljs-number">0</span>) <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> sentence.split()] <span class="hljs-comment"># 0 for OOV</span>
+</div></code></pre>
+<p>O método <code>get(word, 0)</code> retornará &quot;0&quot; caso a palavra contida em <code>word</code> não esteja no vocabulário, visto que o valor padrão caso o elemento não esteja no dicionário foi definido para &quot;0&quot; (segundo parâmetro do método). Sendo &quot;0&quot; então o código para um token desconhecido.</p>
+<h3 id="i2c-calcule-o-n%C3%BAmero-de-unknown-tokens-no-conjunto-de-treinamento-e-mostre-o-c%C3%B3digo-de-como-ele-foi-calculado">I.2.c) Calcule o número de unknown tokens no conjunto de treinamento e mostre o código de como ele foi calculado.</h3>
+<p>Total de tokens desconhecidos: 566141</p>
+<p>Código utilizado:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">count_unknown</span><span class="hljs-params">(sentence)</span>:</span>
+  n_unknown = <span class="hljs-number">0</span>
+  encoded_sentence = encode_sentence(sentence, vocab)
+  <span class="hljs-keyword">for</span> encoded_word <span class="hljs-keyword">in</span> encoded_sentence:
+    <span class="hljs-keyword">if</span> encoded_word == <span class="hljs-number">0</span>:
+      n_unknown += <span class="hljs-number">1</span>
+
+  <span class="hljs-keyword">return</span> n_unknown
+
+total_unknown = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">for</span> (target, line) <span class="hljs-keyword">in</span> list(IMDB(split=<span class="hljs-string">'train'</span>)):
+  encode_sentence(line, vocab)
+
+  total_unknown += count_unknown(line)
+
+print(<span class="hljs-string">"Total de tokens desconhecidos:"</span>, total_unknown)
+</div></code></pre>
+<h2 id="exerc%C3%ADcios-i3">Exercícios I.3:</h2>
+<p><strong>Reduzindo o número de amostras para 200</strong></p>
+<p>Uma forma simples de reduzir o número de amostras é utilizar o fatiamento de listas para selecionar apenas as primeiras 200 amostras utilizando [:200] na lista do IMDB: list(IMDB(split='train'))[:200].
+Faça isto, tanto na linha 5 da célula de calcular o vocabulário como na linha 5 da célula do &quot;II - Dataset&quot;.
+Com estas duas modificações, execute o notebook por completo novamente. Você verá que o tempo de processamento cairá drasticamente, para aproximadamente 1 a 2 segundos por época. Porém você vai notar que a Acurácia calculada na célula VI - Avaliação sobe para 100% ou próximo disso.
+Consegue justificar a razão deste resultado inesperado, entendendo que no treinamento, as perdas em cada época continuam próximas de valores com todo o dataset?
+Para ver a resposta, verifique agora no dataset com 200 amostras, quantas são as amostras positivas e quantas são as amostras negativas no dataset de teste.</p>
+<p><strong>Respostas:</strong></p>
+<h3 id="i3a-qual-%C3%A9-a-raz%C3%A3o-pela-qual-o-modelo-preditivo-conseguiu-acertar-100-das-amostras-de-teste-do-dataset-selecionado-com-apenas-as-primeiras-200-amostras">I.3.a) Qual é a razão pela qual o modelo preditivo conseguiu acertar 100% das amostras de teste do dataset selecionado com apenas as primeiras 200 amostras?</h3>
+<p>Analisando a nova distribuição de amostras:</p>
+<ul>
+<li>Amostras positivas: 0</li>
+<li>Amostras negativas: 200</li>
+</ul>
+<p>é possível observar que o subconjunto de amostras de treino selecionado é enviesado, o modelo precisa apenas aprender a predizer &quot;negativo&quot; na saída, simplificando ao extremo a função que precisa ser aprendida.</p>
+<h3 id="i3b-modifique-a-forma-de-selecionar-200-amostras-do-dataset-por%C3%A9m-garantindo-que-ele-continue-balanceado-isto-%C3%A9-aproximadamente-100-amostras-positivas-e-100-amostras-negativas">I.3.b) Modifique a forma de selecionar 200 amostras do dataset, porém garantindo que ele continue balanceado, isto é, aproximadamente 100 amostras positivas e 100 amostras negativas.</h3>
+<p>Com o novo código para selecionar o subconjunto:</p>
+<pre class="hljs"><code><div>trainDataset = []
+counterTarget = Counter()
+nTrain = <span class="hljs-number">0</span>
+<span class="hljs-keyword">for</span> (target, line) <span class="hljs-keyword">in</span> list(IMDB(split=<span class="hljs-string">'train'</span>)):
+
+  <span class="hljs-keyword">if</span> target == <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> counterTarget[<span class="hljs-string">"-"</span>] &lt; <span class="hljs-number">100</span>: 
+    trainDataset.append((target, line))
+
+    counterTarget.update(<span class="hljs-string">"-"</span>)
+    nTrain += <span class="hljs-number">1</span>
+  <span class="hljs-keyword">elif</span> target == <span class="hljs-number">2</span> <span class="hljs-keyword">and</span> counterTarget[<span class="hljs-string">"+"</span>] &lt; <span class="hljs-number">100</span>:
+    trainDataset.append((target, line))
+    
+    counterTarget.update(<span class="hljs-string">"+"</span>)
+    nTrain += <span class="hljs-number">1</span>
+
+  <span class="hljs-keyword">if</span> nTrain == <span class="hljs-number">200</span>:
+    <span class="hljs-keyword">break</span>
+</div></code></pre>
+<p>Temos que o resultado se torna não enviesado:</p>
+<p>Amostras positivas: 100<br>
+Amostras negativas: 100<br>
+Total de amostras: 200<br>
+Comprimento médio: 230.735 palavras</p>
+<p>E a acurácia volta a obter um valor próximo do original (51,744%):</p>
+<p>Test Accuracy: 49.0%</p>
+<h1 id="ii---dataset">II - Dataset</h1>
+<p>Precisamos entender como funciona a classe IMDBDataset. Ela é a classe responsável para acessar cada amostra do dataset.</p>
+<p>Em primeiro lugar precisamos entender qual será a entrada da rede neural para decidir se o texto é uma crítica positiva ou negativa. Uma das formas mais simples de construir um modelo preditivo é com base nas palavras utilizadas no texto. A distribuição das palavras de um texto tem alta correlação com o fato do texto estar falando bem ou falando mal de um filme. Certamente é estimativa que possui seus erros, mas é a forma mais simples e eficiente de se fazer uma análise de sentimento ou de maneira geral uma classificação de um texto. Esse método é denominado &quot;Bag of Words&quot;. A entrada da rede neural, para cada amostra, será um vetor de comprimento do vocabulário, com valores todos zero, com exceção dos tokens que aparecem no texto da amostra. Esse método de codificação é também denominado &quot;One-Hot&quot;. Estude o código da classe IMDBDataset fazendo experimentos e perguntas ao chatGPT para entender com profundidade esta classe.</p>
+<h2 id="exerc%C3%ADcio-ii1">Exercício II.1:</h2>
+<h3 id="ii1a-investigue-o-dataset-criado-na-linha-24-fa%C3%A7a-um-c%C3%B3digo-que-aplique-um-la%C3%A7o-sobre-o-dataset-traindata-e-calcule-novamente-quantas-amostras-positivas-e-negativas-do-dataset">II.1.a) Investigue o dataset criado na linha 24. Faça um código que aplique um laço sobre o dataset train_data e calcule novamente quantas amostras positivas e negativas do dataset.</h3>
+<p>O dataset criado na linha 24 possui um total de:</p>
+<ul>
+<li>Amostras positivas: 100</li>
+<li>Amostras negativas: 100</li>
+<li>Total de amostras: 200</li>
+<li>Média de palavras codificadas: 150.865 palavras</li>
+</ul>
+<p>Código utilizado:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_info</span><span class="hljs-params">(dataset)</span>:</span>
+
+  counterTarget = Counter()
+  meanN_Word = <span class="hljs-number">0</span>
+  nSentence = len(dataset)
+  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(nSentence):
+    encoding, target = dataset[i]
+
+    <span class="hljs-keyword">if</span> target == <span class="hljs-number">0</span>:
+      counterTarget.update(<span class="hljs-string">"-"</span>)
+    <span class="hljs-keyword">else</span>:
+      counterTarget.update(<span class="hljs-string">"+"</span>)
+
+    meanN_Word += int(encoding.sum())
+
+  meanN_Word /= nSentence
+
+  print(<span class="hljs-string">"Amostras positivas:"</span>, counterTarget[<span class="hljs-string">"+"</span>])
+  print(<span class="hljs-string">"Amostras negativas:"</span>, counterTarget[<span class="hljs-string">"-"</span>])
+  print(<span class="hljs-string">"Total de amostras:"</span>, nSentence)
+  print(<span class="hljs-string">"Média de palavras codificadas:"</span>, meanN_Word, <span class="hljs-string">"palavras"</span>)
+
+print(<span class="hljs-string">"TREINO"</span>)
+print_info(train_data)
+
+</div></code></pre>
+<h3 id="ii1b-calcule-tamb%C3%A9m-o-n%C3%BAmero-m%C3%A9dio-de-palavras-codificadas-em-cada-vetor-one-hot-compare-este-valor-com-o-comprimento-m%C3%A9dio-de-cada-texto-contado-em-palavras-conforme-calculado-no-exerc%C3%ADcio">II.1.b) Calcule também o número médio de palavras codificadas em cada vetor one-hot. Compare este valor com o comprimento médio de cada texto (contado em palavras), conforme calculado no exercício</h3>
+<p>O número médio de palavras codificadas é 150.865, menor que o número médio de palavras por sentença, 230.735.</p>
+<h3 id="i1c-e-explique-a-diferen%C3%A7a">I.1.c) e explique a diferença.</h3>
+<p>Essa diferença é devido ao fato de que, se uma palavra aparecer várias vezes no texto, o primeiro método irá contar cada aparição, enquanto que olhar o tamanho médio do vetor one-hot considera apenas 1 aparição de cada palavra.</p>
+<hr>
+<p>A rede neural será alimentada pelo vetor one-hot (quais suas dimensões) e fará uma predição da probabilidade do texto associado ao one-hot ser uma mensagem positiva.</p>
+<p><strong>Aumentando a eficiência do treinamento com o uso da GPU T4</strong></p>
+<p>O código do notebook está preparado para executar tanto com ambiente usando CPU como com GPU, entretanto o ganho de velocidade está sendo reduzido de 45 segundos para 29 segundos que é um ganho muito aquém do esperado que seria ter um speedup entre 7 e 11 vezes dependendo da aplicação. Vamos entender a razão desta baixa eficiência e corrigir o problema.</p>
+<p>A GPU é utilizada durante o treinamento do modelo, onde é utilizada a técnica de minimização da Loss utilizando o gradiente descendente. Isso ocorre na segunda célula do &quot;V - Laço de Treinamento&quot;. Iremos analisar os detalhes mais à frente, para por enquanto basta entender onde a GPU é utilizada. A linha 17 é onde o modelo está fazendo a predição (passo forward), dado a entrada, calcula a saída da rede (muitas vezes chamado de logito) e o cálculo da loss está sendo feito na linha seguinte e o cálculo do gradiente ocorre na linha 21 e a linha 22 é onde ocorre o ajuste dos parâmetros (weights) da rede neural fazendo ela minimizar a Loss. Esse é o processo que é mais demorado e onde a GPU tem muitos ganhos, pois envolve praticamente apenas multiplicação de matrizes. Existem apenas 3 linhas que controlam o uso da GPU que servem para colocar o modelo, a entrada e a saída esperada (targets) na GPU: linhas 3, 14 e 15, respectivamente.</p>
+<hr>
+<h2 id="exerc%C3%ADcio-ii2">Exercício II.2:</h2>
+<p>Com a o notebook configurado para GPU T4, meça o tempo de dois laços dentro do for da linha 13 (coloque um break após dois laços) e determine quanto demora demora para o passo de forward (linhas 14 a 18), para o backward (linhas 20, 21 e 22) e o tempo total de um laço. Faça as contas e identifique o trecho que é mais demorado.</p>
+<h3 id="ii2a">II.2.a)</h3>
+<table>
+<thead>
+<tr>
+<th>Momento</th>
+<th>Tempo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tempo do laço:</td>
+<td>128.39257717132568 ms</td>
+</tr>
+<tr>
+<td>Tempo do forward:</td>
+<td>1.8529891967773438 ms</td>
+</tr>
+<tr>
+<td>Tempo do backward:</td>
+<td>1.2031793594360352 ms</td>
+</tr>
+</tbody>
+</table>
+<p>(o tempo indicado é a média das duas execuções solicitadas)</p>
+<p>Conclusão: A demora principal está na execução da linha: 13 = <code>for inputs, targets in train_loader:</code>. Isso pode ser ainda mais explicitado calculando o tempo médio que demora para executá-la, 125.31495094299316 ms, que é praticamente o tempo inteiro do laço.</p>
+<h3 id="ii2b-trecho-que-precisa-ser-otimizado-esse-%C3%A9-um-problema-bem-mais-dif%C3%ADcil-a-dica-aqui-%C3%A9-que-precisa-muito-de-conceitos-de-iterador-e-programa%C3%A7%C3%A3o-orientada-a-objetos">II.2.b) Trecho que precisa ser otimizado. (Esse é um problema bem mais difícil) A dica aqui é que precisa muito de conceitos de iterador e programação orientada a objetos.</h3>
+<p>O trecho que precisa ser otimizado é o método <code>__getitem__</code> da classe <code>IMDBDataset</code>, visto que relizar o encoding de cada amostra sempre que é utilizada é custoso e está gerando o aumento no tempo.</p>
+<h3 id="ii2c-otimize-o-c%C3%B3digo-e-explique-aqui">II.2.c) Otimize o código e explique aqui.</h3>
+<p>Uma solução simples para acelerar o código é realizar um cacheamento dos dados: todos os encodings são calculados anteriormente, e todos os targets são convertidos para tensores, e durante o treino é realizado apenas um acesso:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IMDBDataset</span><span class="hljs-params">(Dataset)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, split, vocab)</span>:</span>
+        self.data = list(IMDB(split=split))
+
+        self.vocab = vocab
+
+        <span class="hljs-comment">#####################</span>
+        <span class="hljs-comment">##HERE</span>
+        <span class="hljs-comment">#####################</span>
+        
+        <span class="hljs-comment"># Cache data encoding and target</span>
+        self.itens = []
+        <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> range(len(self.data)):
+          target, line = self.data[idx]
+          target = <span class="hljs-number">1</span> <span class="hljs-keyword">if</span> target == <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>
+
+          <span class="hljs-comment"># one-hot encoding</span>
+          X = torch.zeros(len(self.vocab) + <span class="hljs-number">1</span>)
+          <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> encode_sentence(line, self.vocab):
+              X[word] = <span class="hljs-number">1</span>
+
+          self.itens.append((X, torch.tensor(target)))
+          
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__len__</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> len(self.data)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__getitem__</span><span class="hljs-params">(self, idx)</span>:</span>
+
+        <span class="hljs-comment">#####################</span>
+        <span class="hljs-comment">##AND HERE</span>
+        <span class="hljs-comment">#####################</span>
+
+        <span class="hljs-comment">#Only retrieves data</span>
+        <span class="hljs-keyword">return</span> self.itens[idx]
+</div></code></pre>
+<p>Essa alteração diminui os tempo do laço de treino, gerando um speedup de ~20x:</p>
+<table>
+<thead>
+<tr>
+<th>Momento</th>
+<th>Tempo anterior (ms)</th>
+<th>Novo tempo (ms)</th>
+<th>Speedup</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tempo do laço:</td>
+<td>128.39257717132568</td>
+<td>6.272673606872559</td>
+<td>20.468556985119445</td>
+</tr>
+<tr>
+<td>Tempo do forward:</td>
+<td>1.8529891967773438</td>
+<td>1.9022226333618164</td>
+<td>~ 1</td>
+</tr>
+<tr>
+<td>Tempo do backward:</td>
+<td>1.2031793594360352</td>
+<td>1.0069608688354492</td>
+<td>~ 1</td>
+</tr>
+<tr>
+<td>Tempo de acessar o dado:</td>
+<td>125.31495094299316</td>
+<td>3.3473968505859375</td>
+<td>37.43653846153846</td>
+</tr>
+</tbody>
+</table>
+<p>Como um dado é acessado várias vezes durante todo o processo de treino, isso irá gerar uma melhora na performance global (não apenas uma melhora no processo de treino, o que aconteceria se ele fosse acessado apenas 1 vez).</p>
+<p>Para um dataset maior, é possível também paralelizar o cálculo dos encodings, que é custoso, visto que o tempo para criar o objeto do dataset aumentou para 26.34220790863037 s.</p>
+<hr>
+<p>Após esta otimização, <strong>é esperado que o tempo de processamento de cada época caia tanto para execução em CPU (da ordem de 10 segundos por época) como para GPU T4 (da ordem de 1 a 2 segundos por época)</strong>. Isso utilizando as 25 mil amostras do dataset IMDB inteiro.</p>
+<p>Atenção: Se não conseguir atingir esse objetivo, procure árduamente entender com maiores detalhes o código. Esse exercício é fundamental para poder acompanhar o curso durante o semestre.</p>
+<p>Agora que a execução está bem mais otimizada em tempos de execução, modifique o início do notebook para ter novamente o dataset completo: 25 mil amostras e vamos analisar um outro fator importante que é a escolha do LR (Learning Rate)</p>
+<hr>
+<p><strong>Escolhendo um bom valor de LR</strong></p>
+<h2 id="exerc%C3%ADcio-ii3">Exercício II.3:</h2>
+<p>Faça a melhor escolha do LR, analisando o valor da acurácia no conjunto de teste, utilizando para cada valor de LR, a acurácia obtida. Faça um gráfico de Acurácia vs LR e escolha o LR que forneça a maior acurácia possível. Atenção, mantenha o número de épocas como 5.</p>
+<h3 id="ii3a-gr%C3%A1fico-acur%C3%A1cia-vs-lr">II.3.a) Gráfico Acurácia vs LR</h3>
+<p>Calculando a acurácia média em 5 treinos variando a taxa de treino, temos que a acurácia varia da seguinte forma:</p>
+<p><img src="ImpactoDaTaxaDeTreino.png" alt=""></p>
+<h3 id="ii3b-valor-%C3%B3timo-do-lr-para-isso-%C3%A9-desej%C3%A1vel-que-o-lr-%C3%B3timo-que-forne%C3%A7a-maior-acur%C3%A1cia-no-conjunto-de-testes-seja-maior-que-usar-um-lr-menor-e-um-lr-maior-que-o-lr-%C3%B3timo">II.3.b) Valor ótimo do LR (para isso é desejável que o LR ótimo que forneça maior acurácia no conjunto de testes seja maior que usar um LR menor e um LR maior que o LR ótimo.)</h3>
+<p>Observando os valores obtidos, temos que a acurácia é máxima para LR = 0.05</p>
+<h3 id="ii3c-mostre-a-equa%C3%A7%C3%A3o-utilizada-no-gradiente-descendente-e-qual-%C3%A9-o-papel-do-lr-no-ajuste-dos-par%C3%A2metros-weights-do-modelo-da-rede-neural">II.3.c) Mostre a equação utilizada no gradiente descendente e qual é o papel do LR no ajuste dos parâmetros (weights) do modelo da rede neural.</h3>
+<p>A equação do gradiente descendente é:</p>
+<p>$$
+\vec{\theta}_{i+1} = \vec{\theta}<em>i - \text{LR} \nabla \vec{f}(\vec{\theta}</em>{i})
+$$</p>
+<p>em que:</p>
+<ul>
+<li>$ \vec{\theta} $ são os parâmetros do modelo</li>
+<li>$ \text{LR} $ é a taxa de treino</li>
+<li>$ \vec{f} $ é a função de perda</li>
+</ul>
+<p>Pela equação, conseguimos perceber que a taxa de treino $\text{LR}$ tem como papel indicar a intensidade de cada atualização nos pesos. Ou seja, uma vez calcula a direção para a qual os pesos devem ser atualizados ($\nabla \vec{f}(\vec{\theta}_{i})$), ela indica o quanto eles devem ser levados nessa direção.</p>
+<p>Uma taxa muito baixa ocasiona em um treino lento, em que os pesos demoram muitas iterações para serem atualizados. Já uma taxa muita alta gera instabilidade, podendo fazer o processo de treino divergir.</p>
+<hr>
+<p><strong>Otimizando o tokenizador</strong></p>
+<p>Agora que a convergência da Loss está melhor, vamos experimentar os parâmetros do tokenizador, isto é, como as palavras estão codificadas em tokens.
+Observe novamente o vocab criado na parte I - Vocabulário e Tokenização. Perceba como as pontuações estão influenciando nos tokens criados e como o uso de letras maiúsculas e minúsculas também podem atrapalhar a consistência dos tokenizador em representar o significado semântico das palavras. Experimente rodar o encode_sentence com frases que tenham pontuações e letras maiúsculas e minúsculas. Baseado nessas informações, procure melhorar a forma de tokenizar o dataset.</p>
+<h2 id="exerc%C3%ADcio-ii4">Exercício II.4:</h2>
+<p>Melhores a forma de tokenizar, isto é, pré-processar o dataset de modo que a codificação seja indiferente das palavras serem escritas com maiúsculas ou minúsculas e sejam pouco influenciadas pelas pontuações.</p>
+<h3 id="ii4a-mostre-os-trechos-modificados-para-este-novo-tokenizador-tanto-na-se%C3%A7%C3%A3o-i---vocabul%C3%A1rio-como-na-se%C3%A7%C3%A3o-ii---dataset">II.4.a) Mostre os trechos modificados para este novo tokenizador, tanto na seção I - Vocabulário, como na seção II - Dataset.</h3>
+<p>Nova função para limpar as amostras:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clean_text</span><span class="hljs-params">(text:str)</span> -&gt; str:</span>
+  text = text.lower()
+
+  <span class="hljs-keyword">for</span> punctuation <span class="hljs-keyword">in</span> string.punctuation:
+    text = text.replace(punctuation, <span class="hljs-string">""</span>)
+
+  <span class="hljs-keyword">return</span> text
+</div></code></pre>
+<p>Alterado a geração do vocabulario para limpar as amostras:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># limit the vocabulary size to 20000 most frequent tokens</span>
+vocab_size = <span class="hljs-number">20000</span>
+
+counter = Counter()
+<span class="hljs-keyword">for</span> (target, line) <span class="hljs-keyword">in</span> list(IMDB(split=<span class="hljs-string">'train'</span>)):
+    <span class="hljs-comment">#AQUI↓################################</span>
+    line = clean_text(line) 
+    <span class="hljs-comment">#AQUI↑################################</span>
+
+    counter.update(line.split())
+
+<span class="hljs-comment"># create a vocabulary of the 20000 most frequent tokens</span>
+most_frequent_words = sorted(counter, key=counter.get, reverse=<span class="hljs-literal">True</span>)[:vocab_size]
+vocab = {word: i <span class="hljs-keyword">for</span> i, word <span class="hljs-keyword">in</span> enumerate(most_frequent_words, <span class="hljs-number">1</span>)}
+vocab_size = len(vocab)
+</div></code></pre>
+<p>Alterado a codificação de sentenças para limpar o texto:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">encode_sentence</span><span class="hljs-params">(sentence, vocab)</span>:</span>
+  <span class="hljs-comment">#AQUI↓################################</span>
+  sentence = clean_text(sentence)
+  <span class="hljs-comment">#AQUI↑################################</span>
+
+  <span class="hljs-keyword">return</span> [vocab.get(word, <span class="hljs-number">0</span>) <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> sentence.split()] <span class="hljs-comment"># 0 for OOV</span>
+</div></code></pre>
+<p>Não foram realizadas alterações na seção II.</p>
+<h3 id="ii4b-recalcule-novamente-os-valores-do-exerc%C3%ADcio-i2c---n%C3%BAmero-de-tokens-unknown-e-apresente-uma-tabela-comparando-os-novos-valores-com-os-valores-obtidos-com-o-tokenizador-original-e-justifique-os-resultados-obtidos">II.4.b) Recalcule novamente os valores do exercício I.2.c - número de tokens unknown, e apresente uma tabela comparando os novos valores com os valores obtidos com o tokenizador original e justifique os resultados obtidos.</h3>
+<p>Temos uma redução de 75% dos tokens desconhecidos, de 566141 para 137292.</p>
+<h3 id="ii4c-execute-agora-no-notebook-inteiro-com-o-novo-tokenizador-e-veja-o-novo-valor-da-acur%C3%A1cia-obtido-com-a-melhoria-do-tokenizador">II.4.c) Execute agora no notebook inteiro com o novo tokenizador e veja o novo valor da acurácia obtido com a melhoria do tokenizador.</h3>
+<p>A nova acurácia média (5 treinos) é de 88.07%, indicando que houve uma pequena melhoria em relação à acurácia anterior de 86.32%</p>
+<h1 id="iii---dataloader">III - DataLoader</h1>
+<p>Vamos estudar agora o Data Loader da seção III do notebook. Em primeiro lugar anote a acurácia do notebook com as melhorias de eficiência de rodar em GPU, com ajustes de LR e do tokenizador. Em seguida mude o parâmetro shuffle
+na construção do objeto train_loader para False e execute novamente o notebook por completo e meça novamente a acurácia:</p>
+<table>
+<thead>
+<tr>
+<th>Shuffle</th>
+<th>Acurácia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>True</td>
+<td>88.07%</td>
+</tr>
+<tr>
+<td>False</td>
+<td>50%</td>
+</tr>
+</tbody>
+</table>
+<p>Estude o método de minimização da Loss pelo gradiente descendente utilizado em redes neurais, utilizando processamento por batches.
+Esse é um conceito muito importante. Veja no chatGPT qual é a relação da função Loss a ser minimizada no treinamento em função do batch size.</p>
+<h2 id="exerc%C3%ADcios-iii1">Exercícios III.1:</h2>
+<h3 id="iii1a-explique-as-duas-principais-vantagens-do-uso-de-batch-no-treinamento-de-redes-neurais">III.1.a) Explique as duas principais vantagens do uso de batch no treinamento de redes neurais.</h3>
+<p>Primeira vantagem é em relação ao custo, já que o uso de batch permite o treino em dataset maiores, requerendo menos memória; e permite atualizar mais frequentemente o modelo, o que pode diminuir o tempo de treino.</p>
+<p>A segunda vantagem é na generalização do modelo e treino: com o ruído adicionado utilizando batchs, visto que cada batch diferente gerará uma atualização que irá levar os parâmetros em uma direção diferente no espaço, isso permite o modelo a escapar de mínimos locais, evitando um fim prematuro no treinamento e aumentando a generalização.</p>
+<h3 id="iii1b-explique-por-que-%C3%A9-importante-fazer-o-embaralhamento-das-amostras-do-batch-em-cada-nova-%C3%A9poca">III.1.b) Explique por que é importante fazer o embaralhamento das amostras do batch em cada nova época.</h3>
+<p>Embaralhar os batchs aumenta a robustez do treino e a generalização. Caso não sejam embaralhadas, os batchs podem conter padrões indesejáveis, como uma representação não homogênea das classes ou apenas padrões muito específicos nos dados, que seriam repetidos a toda epoch e que podem levar a rede a se manter presa em uma região do espaço de treinamento ou aprender estes padrões.</p>
+<h3 id="iii1c-se-voc%C3%AA-alterar-o-shufflefalse-no-instanciamento-do-objeto-testloader-por-que-o-c%C3%A1lculo-da-acur%C3%A1cia-n%C3%A3o-se-altera">III.1.c) Se você alterar o shuffle=False no instanciamento do objeto test_loader, por que o cálculo da acurácia não se altera?</h3>
+<p>Por que o cálculo da acurácia é feito sobre todo o dataset, independente da ordem dos dados. O uso de batchs neste caso apenas diminui os custos computacionais para realizar o cálculo.</p>
+<h2 id="exerc%C3%ADcios-iii2">Exercícios III.2</h2>
+<h3 id="iii2a-fa%C3%A7a-um-la%C3%A7o-no-objeto-trainloader-e-me%C3%A7a-quantas-itera%C3%A7%C3%B5es-o-loader-tem-mostre-o-c%C3%B3digo-para-calcular-essas-itera%C3%A7%C3%B5es-explique-o-valor-encontrado">III.2.a) Faça um laço no objeto train_loader e meça quantas iterações o Loader tem. Mostre o código para calcular essas iterações. Explique o valor encontrado.</h3>
+<p>Utilizando o seguinte código para calcular as iterações:</p>
+<pre class="hljs"><code><div>i = <span class="hljs-number">0</span>
+<span class="hljs-keyword">for</span> inputs, targets <span class="hljs-keyword">in</span> train_loader:
+ i +=<span class="hljs-number">1</span> 
+
+print(<span class="hljs-string">"Iterações:"</span>, i)
+</div></code></pre>
+<p>Temos que são realizadas 196 iterações. Este valor é a quantidade de batchs em que o dataset é dividido, o teto da quantidade de elementos no conjunto de treino dividido pelo tamanho dos batchs:</p>
+<p>$$
+\lceil {||Treino|| \over \text{batch size}} \rceil
+$$</p>
+<h3 id="iii2b-imprima-o-n%C3%BAmero-de-amostras-do-%C3%BAltimo-batch-do-trainloader-e-justifique-o-valor-encontrado-ele-pode-ser-menor-que-o-batchsize">III.2.b) Imprima o número de amostras do último batch do train_loader e justifique o valor encontrado? Ele pode ser menor que o batch_size?</h3>
+<p>O último batch possui 40 amostras, pois o conjunto de treino não é totalmente divisível. É comum que o último batch seja menor que <code>batch_size</code>, e não costuma gerar um problema significativo no processo de treino.</p>
+<h3 id="iii2c-calcule-r-a-rela%C3%A7%C3%A3o-do-n%C3%BAmero-de-amostras-positivas-sobre-o-n%C3%BAmero-de-amostras-no-batch-e-no-final-encontre-o-valor-m%C3%A9dio-de-r-para-ver-se-o-data-loader-est%C3%A1-entregando-batches-balanceados-desta-vez-em-vez-de-fazer-um-la%C3%A7o-expl%C3%ADcito-utilize-list-comprehension-para-criar-uma-lista-contendo-a-rela%C3%A7%C3%A3o-r-de-cada-amostra-no-batch-no-final-calcule-a-m%C3%A9dia-dos-elementos-da-lista-para-fornecer-a-resposta-final">III.2.c) Calcule R, a relação do número de amostras positivas sobre o número de amostras no batch e no final encontre o valor médio de R, para ver se o data loader está entregando batches balanceados. Desta vez, em vez de fazer um laço explícito, utilize list comprehension para criar uma lista contendo a relação R de cada amostra no batch. No final, calcule a média dos elementos da lista para fornecer a resposta final.</h3>
+<p>Código:</p>
+<pre class="hljs"><code><div>R = [int(sum(targets))/len(targets) <span class="hljs-keyword">for</span>  _, targets <span class="hljs-keyword">in</span> train_loader]
+
+R_mean = np.mean(R)
+</div></code></pre>
+<p>Como resultado, obtemos que o R médio é  0.4998246173469388 ≈ 0.5. Portanto, o data loader está entregando batches balanceados.</p>
+<h3 id="iii2d-mostre-a-estrutura-de-um-dos-batches-cada-batch-foi-criado-no-m%C3%A9todo-getitem-do-dataset-linha-20-%C3%A9-formado-por-uma-tupla-com-o-primeiro-elemento-sendo-a-codifica%C3%A7%C3%A3o-one-hot-do-texto-e-o-segundo-elemento-o-target-esperado-indicando-positivo-ou-negativo-mostre-o-shape-linhas-e-colunas-e-o-tipo-de-dado-float-ou-integer-tanto-da-entrada-da-rede-como-do-target-esperado-desta-vez-selecione-um-elemento-do-batch-do-trainloader-utilizando-as-fun%C3%A7%C3%B5es-next-e-iter-batch--nextitertrainloader">III.2.d) Mostre a estrutura de um dos batches. Cada batch foi criado no método <strong>getitem</strong> do Dataset, linha 20. É formado por uma tupla com o primeiro elemento sendo a codificação one-hot do texto e o segundo elemento o target esperado, indicando positivo ou negativo. Mostre o shape (linhas e colunas) e o tipo de dado (float ou integer), tanto da entrada da rede como do target esperado. Desta vez selecione um elemento do batch do train_loader utilizando as funções next e iter: batch = next(iter(train_loader)).</h3>
+<p>A entrada possui shape [128, 20001] e é do tipo float32. Já a saída/target possui shape [128] e é do tipo int64.</p>
+<h2 id="exerc%C3%ADcios-iii3">Exercícios III.3:</h2>
+<h3 id="iii3a-verifique-a-influ%C3%AAncia-do-batch-size-na-acur%C3%A1cia-final-do-modelo-experimente-usar-um-batch-size-de-1-amostra-apenas-e-outro-com-mais-de-512-preencha-a-tabela-a-seguir-e-comente-sobre-os-resultados">III.3.a) Verifique a influência do batch size na acurácia final do modelo. Experimente usar um batch size de 1 amostra apenas e outro com mais de 512, preencha a tabela a seguir e comente sobre os resultados.</h3>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>batch_size = 1</th>
+<th>batch_size = 128</th>
+<th>batch_size = 512</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Loss final da época 1</td>
+<td>0.0208</td>
+<td>0.4220</td>
+<td>0.6719</td>
+</tr>
+<tr>
+<td>Loss final da época 5</td>
+<td>0.0000</td>
+<td>0.2249</td>
+<td>0.4117</td>
+</tr>
+</tbody>
+</table>
+<p>Comentários: podemos primeiramente observar que, com um batch menor, a loss se torna cada vez maior. Uma possível explicação para isso é o fato de que o código disponibilizado reporta a loss apenas para o último batch de cada epoch, indicando a performance do modelo apenas neste elemento, não no conjunto total. É possível que a rede tenha se otimizado melhor para os elementos específicos presentes no batch, principalmente para o caso do batch unitário. Pode ser ainda possível que a rede tenha realmente &quot;overfitado&quot; para os elementos no conjunto de treino, devido a inexistência do ruído adicionado com batchs maiores. Uma outra explicação seria uma atualização mais frequente do modelo, treinando mais.</p>
+<p>É importante notar que o treino com o batch unitário se mostrou consideravelmente mais lento do que nos outros casos.</p>
+<h1 id="iv---modelo-mlp">IV - Modelo MLP</h1>
+<p>A célula da seção IV - Modelo é provavelmente uma das mais difíceis de entender, juntamente com a seção V - Treinamento, pois são onde aparecem as principais funções do PyTorch.</p>
+<p>Iremos utilizar uma rede neural de duas camadas ditas MLP (Multi-Layer Perceptron). São duas camadas lineares, fc1 e fc2. Essas camadas também são denominadas <em>fully connected</em> para diferenciar de camadas convolucionais. As camadas são onde estão os parâmetros (<em>weights</em>) da rede neural. É importante estudar como estas camadas lineares funcionam, elas são compostas de neurônios que fazem uma média ponderada pelos parâmetros W_i mais uma constante B_i. Esses parâmetros são treinados para minimizar a função de Loss. Uma função não linear é colocada entre as camadas lineares. No caso, usamos a função ReLU (<em>Rectified Linear Unit</em>).</p>
+<p>Para entender o código da célula do Modelo MLP é fundamental conhecer os conceitos de orientação a objetos do Python. O modelo é definido pela classe <code>OneHotMLP</code> e é instanciado no objeto <code>model</code> na linha 16 que implementa o modelo da rede neural, recebendo uma entrada no formato one-hot e retornando o logito para ser posteriormente convertido em probabilidade do frase ser positiva ou negativa. O método <code>forward</code> será chamado automaticamente quando o objeto model for usado como função. Esses modelos são projetados para processar um batch de entrada de cada vez no formato devolvido pelo Data Loader visto na seção III (Exercício III.2.d)</p>
+<p><strong>Exercícios para experimentar o modelo</strong></p>
+<h2 id="exerc%C3%ADcios-iv1">Exercícios IV.1:</h2>
+<h3 id="iv1a-fa%C3%A7a-a-predi%C3%A7%C3%A3o-do-modelo-utilizando-um-batch-do-trainloader-extraia-um-batch-do-trainloader-chame-de-inputs-targets-onde-input-%C3%A9-a-entrada-da-rede-e-target-%C3%A9-a-classe-positiva-ou-negativa-esperada-como-a-rede-est%C3%A1-com-seus-par%C3%A2metros-weights-aleat%C3%B3rios-o-logito-de-sa%C3%ADda-da-rede-ser%C3%A1-um-valor-aleat%C3%B3rio-por%C3%A9m-a-chamada-ir%C3%A1-executar-sem-erros-logits--model-inputs-aplique-a-fun%C3%A7%C3%A3o-sigmoidal-ao-logito-para-convert%C3%AA-lo-numa-probabilidade-de-valor-entre-0-e-1">IV.1.a) Faça a predição do modelo utilizando um batch do train_loader: extraia um batch do train_loader, chame de (inputs, targets), onde input é a entrada da rede e target é a classe (positiva ou negativa) esperada. Como a rede está com seus parâmetros (weights) aleatórios, o logito de saída da rede será um valor aleatório, porém a chamada irá executar sem erros: <code>logits = model( inputs)</code>. Aplique a função sigmoidal ao logito para convertê-lo numa probabilidade de valor entre 0 e 1.</h3>
+<p>Código:</p>
+<pre class="hljs"><code><div>model = OneHotMLP(vocab_size)
+
+batch = next(iter(train_loader))
+(inputs, targets) = batch
+
+logits  = model(inputs)
+
+print(torch.sigmoid(logits).squeeze())
+</div></code></pre>
+<p>Resultado:</p>
+<pre class="hljs"><code><div>tensor([0.4934, 0.5003, 0.4914, 0.4959, 0.4913, 0.4880, 0.4914, 0.4915, 0.4944,
+        0.4861, 0.4854, 0.4893, 0.4888, 0.4796, 0.4879, 0.4836, 0.4871, 0.4951,
+        0.4904, 0.4912, 0.4907, 0.4923, 0.4948, 0.4858, 0.4854, 0.4843, 0.4960,
+        0.4909, 0.4962, 0.4867, 0.4946, 0.4919, 0.4919, 0.4898, 0.4928, 0.4906,
+        0.4928, 0.4930, 0.4880, 0.4882, 0.4947, 0.4914, 0.4874, 0.4885, 0.4822,
+        0.4979, 0.4899, 0.4951, 0.4936, 0.4972, 0.4868, 0.4879, 0.4930, 0.4909,
+        0.4899, 0.4909, 0.4902, 0.4829, 0.4943, 0.4930, 0.4945, 0.4879, 0.4916,
+        0.4894, 0.4921, 0.4884, 0.4812, 0.4882, 0.4915, 0.4851, 0.4924, 0.4889,
+        0.4881, 0.4880, 0.4849, 0.4924, 0.4864, 0.4843, 0.4917, 0.4922, 0.4923,
+        0.4905, 0.4943, 0.4960, 0.4867, 0.4919, 0.4928, 0.4964, 0.4912, 0.4965,
+        0.4945, 0.4895, 0.4886, 0.4900, 0.4855, 0.4920, 0.4971, 0.4942, 0.4873,
+        0.4922, 0.4910, 0.4956, 0.4965, 0.4844, 0.4892, 0.4914, 0.4876, 0.4930,
+        0.4859, 0.4892, 0.4908, 0.4937, 0.4897, 0.4899, 0.4835, 0.4847, 0.4947,
+        0.4880, 0.4948, 0.4853, 0.4905, 0.4955, 0.4957, 0.4935, 0.4941, 0.4884,
+        0.4912, 0.4936], grad_fn=&lt;SqueezeBackward0&gt;)
+</div></code></pre>
+<h3 id="iv1b-agora-treine-a-rede-executando-o-notebook-todo-e-verifique-se-a-acur%C3%A1cia-est%C3%A1-alta-agora-repita-o-exerc%C3%ADcio-anterior-por%C3%A9m-agora-compare-o-valor-da-probabilidade-encontrada-com-o-target-esperado-e-verifique-se-ele-acertou-voc%C3%AA-pode-considerar-que-se-a-probabilidade-for-maior-que-05-pode-se-dar-o-target-1-e-se-for-menor-que-05-o-target-0-observe-isso-que-%C3%A9-feito-na-linha-11-da-se%C3%A7%C3%A3o-vi---avalia%C3%A7%C3%A3o-calcule-ent%C3%A3o-a-acur%C3%A1cia-do-modelo-treinado-no-primeiro-batch-dos-dados-e-mostre-o-c%C3%B3digo-para-calcular-essa-acur%C3%A1cia-do-primeiro-batch-e-a-acur%C3%A1cia-obtida">IV.1.b) Agora, treine a rede executando o notebook todo e verifique se a acurácia está alta. Agora repita o exercício anterior, porém agora, compare o valor da probabilidade encontrada com o <code>target</code> esperado e verifique se ele acertou. Você pode considerar que se a probabilidade for maior que 0.5, pode-se dar o target 1 e se for menor que 0.5, o target 0. Observe isso que é feito na linha 11 da seção <strong>VI - Avaliação</strong>. Calcule então a acurácia do modelo treinado no primeiro batch dos dados e mostre o código para calcular essa acurácia do primeiro batch e a acurácia obtida:</h3>
+<p>Acurácia = 92.1875%</p>
+<p>Código utilizado:</p>
+<pre class="hljs"><code><div>batch = next(iter(train_loader))
+(inputs, targets) = batch
+
+logits  = model(inputs)
+predicted = torch.round(torch.sigmoid(logits.squeeze()))
+total = targets.size(<span class="hljs-number">0</span>)
+correct = (predicted == targets).sum().item()
+
+print(<span class="hljs-string">f'Accuracy: <span class="hljs-subst">{<span class="hljs-number">100</span> * correct / total}</span>%'</span>)
+</div></code></pre>
+<h3 id="iv1c-n%C3%BAmero-de-par%C3%A2metros-do-modelo">IV.1.c) Número de parâmetros do modelo</h3>
+<p><strong>Se você der um print no modelo: print(model), você obterá:</strong></p>
+<p>*<code>OneHotMLP(   (fc1): Linear(in_features=20001, out_features=200, bias=True)   (fc2): Linear(in_features=200, out_features=1, bias=True)   (relu): ReLU() )</code></p>
+<p><strong>Os pesos da primeira camada podem ser visualizados com:</strong><br>
+<code>model.fc1.weight</code>
+<strong>e o elemento constante (bias) pode ser visualizado com:</strong>
+<code>model.fc1.bias</code>
+<strong>Calcule o número de parâmetros do modelo, preenchendo a seguinte tabela (utilize shape para verificar a estrutura de cada parâmetro do modelo):</strong></p>
+<table>
+<thead>
+<tr>
+<th>layer</th>
+<th>fc1</th>
+<th>fc1</th>
+<th>fc2</th>
+<th>fc2</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>weight</td>
+<td>bias</td>
+<td>weight</td>
+<td>bias</td>
+<td>-</td>
+</tr>
+<tr>
+<td>size</td>
+<td>4000200</td>
+<td>200</td>
+<td>200</td>
+<td>1</td>
+<td>4000601</td>
+</tr>
+</tbody>
+</table>
+<h1 id="v---treinamento">V - Treinamento</h1>
+<p>Agora vamos entrar na principal seção do notebook que minimiza a Loss para ajustar os pesos do modelo.</p>
+<p><strong>Cálculo da Loss</strong></p>
+<p>A Loss é uma comparação entre a saída do modelo e o label (target). A Loss mais utilizada para problemas de classificação é a Entropia Cruzada. A equação da entropia cruzada para o caso binário (2 classes: 0 ou 1; True ou False) é dada por:</p>
+<p><img src="./Figura V.1.png" alt=""></p>
+<p>Muitas vezes chamamos $y_i$ de target e $\hat{y_i}$ de prob.</p>
+<p>Quando a Loss é zero, significa que o modelo está predizendo tanto as amostras positivas como as amostras negativas com probabilidade de 100%. O objetivo é otimizar o modelo para conseguir minimizar a Loss ao máximo.</p>
+<p>A rede neural é o nosso modelo que recebe a entrada com um batch de amostras e retorna um batch de logitos.</p>
+<p>$$logits = model( inputs)$$</p>
+<p>para converter o logito em probabilidade, utiliza-se a função sigmóide que é dada pela equação:</p>
+<p><img src="./Sigmoid-Equation.png" alt=""><img src="./Sigmoid-Plot.png" alt=""></p>
+<p>Assim, o código pytorch para estimarmos a probabilidade de um texto codificado no formato one-hot na variável input pode ser:</p>
+<p>$$probs = torch.sigmoid(logits)$$</p>
+<p>Atenção: observe que esses comandos estão processando todas as amostras no batch, que nesse notebook tem 128 amostras no batch size.</p>
+<h2 id="exerc%C3%ADcios-v1">Exercícios V.1:</h2>
+<h3 id="v1a-qual-%C3%A9-o-valor-te%C3%B3rico-da-loss-quando-o-modelo-n%C3%A3o-est%C3%A1-treinado-mas-apenas-inicializado-isto-%C3%A9-a-probabilidade-predita-tanto-para-a-classe-0-como-para-a-classe-1-%C3%A9-sempre-05--justifique-aten%C3%A7%C3%A3o-na-equa%C3%A7%C3%A3o-da-entropia-cruzada-utilize-o-logaritmo-natural">V.1.a) Qual é o valor teórico da Loss quando o modelo não está treinado, mas apenas inicializado? Isto é, a probabilidade predita tanto para a classe 0 como para a classe 1, é sempre 0,5 ? Justifique. Atenção: na equação da Entropia Cruzada utilize o logaritmo natural.</h3>
+<p>Calculando primeiro a perda para uma amostra de cada classe:</p>
+<p>$$
+L_0 = 0 \log(0.5) + (1-0)log(1-0.5) = log(0.5)
+$$</p>
+<p>$$
+L_1 = 1 \log(0.5) + (1-1)log(1-0.5) = log(0.5)
+$$</p>
+<p>Temos que seria a mesma, logo o somatório poderia ser reduzido:</p>
+<p>$$
+L_{máx} = -{1 \over N} \sum_{i=1}^N \log(0.5) = -{1\over N} N \log(0.5) = -\log(0.5)
+$$</p>
+<p>O que nos dá uma perda máxima de $L_{máx} = -\log(0.5) = 0.6931...$</p>
+<h3 id="v1b-utilize-as-amostras-do-primeiro-batch-inputtarget--nextitertrainloader-e-calcule-o-valor-da-loss-utilizando-apenas-as-opera%C3%A7%C3%B5es-da-equa%C3%A7%C3%A3o-fornecida-anteriormente-utilizando-o-pytorch-opera%C3%A7%C3%B5es-de-soma-subtra%C3%A7%C3%A3o-multiplica%C3%A7%C3%A3o-divis%C3%A3o-e-log-verifique-se-este-valor-%C3%A9-pr%C3%B3ximo-do-valor-te%C3%B3rico-do-exerc%C3%ADcio-anterior">V.1.b) Utilize as amostras do primeiro batch: <code>(input,target) = next(iter(train_loader))</code> e calcule o valor da Loss utilizando apenas as operações da equação fornecida anteriormente utilizando o pytorch (operações de soma, subtração, multiplicação, divisão e log). Verifique se este valor é próximo do <strong>valor teórico do exercício anterior.</strong></h3>
+<p>O valor obtido é de 0.6939290165901184, coerente com o esperado teoricamente.</p>
+<p>Código utilizado:</p>
+<pre class="hljs"><code><div>(input,target) = next(iter(train_loader))
+
+model = OneHotMLP(vocab_size)
+
+output = model(input)
+
+prob = torch.sigmoid(output.squeeze())
+
+L = torch.sum(
+    (target*torch.log(prob)) + 
+     ((<span class="hljs-number">1</span>-target)*torch.log(<span class="hljs-number">1</span>-prob))
+     )
+
+L *= <span class="hljs-number">-1</span>/(len(target))
+
+print(L.item())
+</div></code></pre>
+<h3 id="v1c-o-pytorch-possui-v%C3%A1rias-fun%C3%A7%C3%B5es-que-facilitam-o-c%C3%A1lculo-da-loss-pela-entropia-cruzada-utilize-a-classe-nnbceloss-binary-cross-entropy-loss-voc%C3%AA-primeiro-deve-instanciar-uma-fun%C3%A7%C3%A3o-da-classe-nnbceloss-esta-fun%C3%A7%C3%A3o-instanciada-recebe-dois-par%C3%A2metros-probs--targets-e-retorna-a-loss-use-a-busca-do-google-para-ver-a-documenta%C3%A7%C3%A3o-do-bceloss-do-pytorch-calcule-ent%C3%A3o-a-fun%C3%A7%C3%A3o-de-loss-da-entropia-cruzada-por%C3%A9m-usando-agora-a-fun%C3%A7%C3%A3o-instanciada-pelo-bceloss-e-confira-se-o-resultado-%C3%A9-exatamente-o-mesmo-obtido-no-exerc%C3%ADcio-anterior">V.1.c) O pytorch possui várias funções que facilitam o cálculo da Loss pela Entropia Cruzada. Utilize a classe <code>nn.BCELoss</code> (Binary Cross Entropy Loss). Você primeiro deve instanciar uma função da classe <code>nn.BCELoss</code>. Esta função instanciada recebe dois parâmetros (probs , targets) e retorna a Loss. Use a busca do Google para ver a documentação do <code>BCELoss</code> do pytorch. Calcule então a função de Loss da entropia cruzada, porém usando agora a função instanciada pelo <code>BCELoss</code> e <strong>confira se o resultado é exatamente o mesmo obtido no exercício anterior.</strong></h3>
+<p>A loss obtida é 0.6896450519561768, coerente com os valores anteriores.</p>
+<p>Código utilizado:</p>
+<pre class="hljs"><code><div>(input,target) = next(iter(train_loader))
+
+model = OneHotMLP(vocab_size)
+
+logits = model(input)
+predicted = torch.sigmoid(logits.squeeze())
+
+loss = nn.BCELoss()
+
+print(loss(predicted, target.float()).item())
+</div></code></pre>
+<h3 id="v1d-repita-o-mesmo-exerc%C3%ADcio-por%C3%A9m-agora-usando-a-classe-nnbcewithlogitsloss-que-%C3%A9-a-op%C3%A7%C3%A3o-utilizada-no-notebook-observe-que-com-essa-classe-o-c%C3%A1lculo-da-loss-%C3%A9-feito-com-o-logito-sem-precisar-calcular-a-probabilidade-o-resultado-da-loss-deve-igualar-aos-resultados-anteriores">V.1.d) Repita o mesmo exercício, porém agora usando a classe <code>nn.BCEWithLogitsLoss</code>, que é a opção utilizada no notebook. Observe que com essa classe o cálculo da Loss é feito com o logito sem precisar calcular a probabilidade. <strong>O resultado da Loss deve igualar aos resultados anteriores.</strong></h3>
+<p>A loss obtida desta vez é 0.6946419477462769, mais uma vez coerente.</p>
+<p>Código utilizado:</p>
+<pre class="hljs"><code><div>(input,target) = next(iter(train_loader))
+
+model = OneHotMLP(vocab_size)
+
+logits = model(input)
+
+loss = nn.BCEWithLogitsLoss()
+
+print(loss(logits.squeeze(), target.float()).item())
+</div></code></pre>
+<hr>
+<p><strong>Minimização da Loss pelo gradiente descendente</strong></p>
+<p>Estude o método do gradiente descendente para minimizar uma função. Como curiosidade, pergunte ao chatGPT quando este método de minimização foi usado pela primeira vez. Aproveite e peça para ele explicar o método de uma maneira bem simples e ilustrativa. Peça para ele explicar qual é a forma moderna de se calcular computacionalmente o gradiente de uma função.
+Finalmente peça para ele explicar as linhas 3, 6, e (20, 21 e 22) do laço de treinamento.</p>
+<h2 id="exerc%C3%ADcios-v2">Exercícios V.2:</h2>
+<h3 id="v2a-modifique-a-c%C3%A9lula-do-la%C3%A7o-de-treinamento-de-modo-que-a-primeira-loss-a-ser-impressa-seja-a-loss-com-o-modelo-inicializado-isto-%C3%A9-sem-nenhum-treinamento-fornecendo-a-loss-esperada-conforme-os-exerc%C3%ADcios-feitos-anteriormente-observe-que-desta-forma-fica-f%C3%A1cil-verificar-se-o-seu-modelo-est%C3%A1-correto-e-a-loss-est%C3%A1-sendo-calculada-corretamente">V.2.a) Modifique a célula do laço de treinamento de modo que a primeira Loss a ser impressa seja a Loss com o modelo inicializado (isto é, sem nenhum treinamento), fornecendo a Loss esperada conforme os exercícios feitos anteriormente. Observe que desta forma, fica fácil verificar se o seu modelo está correto e a Loss está sendo calculada corretamente.</h3>
+<p><strong>Atenção</strong>: Mantenha esse código da impressão do valor da Loss inicial, antes do treinamento, nesta célula, pois ela é sempre útil para verificar se não tem nada errado, antes de começar o treinamento.<br>
+Atenção: A Loss antes da época 0 deve ser calculada em todas as 25.000 amostras.</p>
+<table>
+<thead>
+<tr>
+<th>Momento</th>
+<th>Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Loss antes da época 0</td>
+<td>0.6924</td>
+</tr>
+<tr>
+<td>Loss após época 0</td>
+<td>0.4612</td>
+</tr>
+<tr>
+<td>Loss após época 5</td>
+<td>0.2079</td>
+</tr>
+</tbody>
+</table>
+<h3 id="v2b-execute-a-c%C3%A9lula-de-treinamento-por-uma-segunda-vez-e-observe-que-a-loss-continua-diminuindo-e-o-modelo-est%C3%A1-continuando-a-ser-treinado-o-que-%C3%A9-necess%C3%A1rio-fazer-para-que-o-treinamento-comece-novamente-do-modelo-aleat%C3%B3rio-qualis-c%C3%A9lulas-%C3%A9s%C3%A3o-preciso-executar-antes-de-executar-o-la%C3%A7o-de-treinamento-novamente">V.2.b) Execute a célula de treinamento por uma segunda vez e observe que a Loss continua diminuindo e o modelo está continuando a ser treinado. O que é necessário fazer para que o treinamento comece novamente do modelo aleatório? Qual(is) célula(s) é(são) preciso executar antes de executar o laço de treinamento novamente?</h3>
+<p>Para começar novamente o treino com o modelo aleatório a forma mais simples é instanciar novamente ele, para isso sendo necessário executar a célula da seção &quot;IV-Modelo&quot;, mais especificamente a linha <code>model = OneHotMLP(vocab_size)</code>.</p>
+<h1 id="vi---avalia%C3%A7%C3%A3o">VI - Avaliação</h1>
+<p>Observe que o módulo de avaliação utiliza o <code>test_loader</code> que foi carregado do dataset IMDB especialmente preparado para fazer a avaliação.</p>
+<h2 id="exerc%C3%ADcios-vi1">Exercícios VI.1:</h2>
+<h3 id="vi1a-calcule-o-n%C3%BAmero-de-amostras-que-est%C3%A1-sendo-considerado-na-se%C3%A7%C3%A3o-de-avalia%C3%A7%C3%A3o">VI.1.a) Calcule o número de amostras que está sendo considerado na seção de avaliação.</h3>
+<p>O dataset de teste possui 25000 amostras.</p>
+<p>Código:</p>
+<pre class="hljs"><code><div>len(test_data)
+</div></code></pre>
+<h3 id="vi1b-explique-o-que-faz-os-comandos-modeleval-e-with-torchnograd">VI.1.b) Explique o que faz os comandos <code>model.eval()</code> e <code>with torch.no_grad()</code>.</h3>
+<p><code>model.eval()</code> é utilizado no momento de inferência (não treino) do modelo, pois algumas camadas possuem comportamento diferentes durante o treino. No caso este modelo provavelmente não terá um comportamento diferente com ou sem este comando, porém é uma boa prática sempre utilizá-lo.</p>
+<p><code>with torch.no_grad()</code> indica que não é necessário calcular os gradientes das operações realizadas dentro deste contexto, acelerando as operações e diminuindo o uso de memória.</p>
+<h3 id="vi1c-qual-%C3%A9-uma-forma-mais-simples-de-calcular-a-classe-predita-na-linha-11-sem-a-necessidade-de-usar-a-fun%C3%A7%C3%A3o-torchsigmoid-ou-qualquer-outra-fun%C3%A7%C3%A3o-do-pytorch-dica-analise-todos-os-comandos-da-linha-11-e-veja-qual-%C3%A9-a-simplifica%C3%A7%C3%A3o-poss%C3%ADvel-e-implemente-a-e-verifique-se-o-valor-da-acur%C3%A1cia-continua-o-mesmo">VI.1.c) Qual é uma forma mais simples de calcular a classe predita na linha 11, sem a necessidade de usar a função torch.sigmoid ou qualquer outra função do pytorch? (Dica: analise todos os comandos da linha 11 e veja qual é a simplificação possível e implemente-a e verifique se o valor da acurácia continua o mesmo)</h3>
+<p>Como se deseja apenas saber se o valor é maior ou menor que 0, é possível simplificar a linha para:</p>
+<pre class="hljs"><code><div>(logits.squeeze() &gt; <span class="hljs-number">0</span>).float()
+</div></code></pre>
+<p>reduzindo o tempo da operação de 29.7 µs ± 7.71 µs para 23.2 µs ± 527 ns. Caso os dados posteriormente não precisem ser convertidos para float sendo apenas:</p>
+<p>logits.squeeze() &gt; 0</p>
+<p>a redução é ainda maior, para 14.3 µs ± 2.11 µs.</p>
+<p>Utilizando o código:</p>
+<pre class="hljs"><code><div>inputs = inputs.to(device)
+targets = targets.to(device)
+logits = model(inputs)
+
+predicted = torch.round(torch.sigmoid(logits.squeeze()))
+predicted2 = (logits.squeeze() &gt; <span class="hljs-number">0</span>).float()
+
+equal = (predicted != predicted2).sum() == <span class="hljs-number">0</span>
+equal = equal.item()
+
+print(<span class="hljs-string">"É igual?"</span>, equal)
+</div></code></pre>
+<p>Saída: &quot;É igual? True&quot;</p>
+<p>podemos confirmar que ambos os códigos geram resultados equivalentes.</p>
+<hr>
+<p><strong>Perplexidade como métrica de avaliação</strong></p>
+<p>Em teoria da informação, a perplexidade (PPL) é dada por</p>
+<p><img src="./Perplexidade-Equação.png" alt=""></p>
+<p>onde $CE$ é a Cross Entropy, que utilizamos na Loss do treinamento. A base $e$ utilizada para a exponenciação deve ser compatível com a base utilizado no logaritmo da cross entropia. Como utilizamos logaritmo natural para a entropia cruzada, devemos aqui usar o e. Se a entropia cruzada usasse a base 2, a perplexidade seria 2 elevado à entropia cruzada.</p>
+<p>Eu, particularmente gosto de usar a perplexidade em vez de usar a entropia cruzada pelo motivo que ficará explícito nos exercícios a seguir:</p>
+<h2 id="exerc%C3%ADcios-vi2">Exercícios VI.2:</h2>
+<h3 id="vi2a-utilizando-a-resposta-do-exerc%C3%ADcio-v1a-que-%C3%A9-a-loss-te%C3%B3rica-de-um-modelo-aleat%C3%B3rio-de-2-classes-qual-%C3%A9-o-valor-da-perplexidade">VI.2.a) Utilizando a resposta do exercício V.1.a, que é a Loss teórica de um modelo aleatório de 2 classes, qual é o valor da perplexidade?</h3>
+<p>$$
+\text{PPL} = e^{ 0.6931} = 2
+$$</p>
+<p>A perplexidade tem valor teórico de 0.5.</p>
+<h3 id="vi2b-e-se-o-modelo-agora-fosse-para-classificar-a-amostra-em-n-classes-qual-seria-o-valor-da-perplexidade-para-o-caso-aleat%C3%B3rio">VI.2.b) E se o modelo agora fosse para classificar a amostra em N classes, qual seria o valor da perplexidade para o caso aleatório?</h3>
+<p>Analisando numericamente o comportamento da perda para o caso de N classes:</p>
+<pre class="hljs"><code><div>loss = nn.CrossEntropyLoss()
+
+N_hist = list(range(<span class="hljs-number">1</span>, <span class="hljs-number">10</span>))
+ppl_hist = []
+
+<span class="hljs-keyword">for</span> N <span class="hljs-keyword">in</span> N_hist:
+
+  output = torch.ones(N, dtype=torch.float)
+  
+  <span class="hljs-comment">#Simétrico+média -&gt; apenas 1 classe é necessário</span>
+  target = torch.tensor(<span class="hljs-number">0</span>, dtype=torch.int64) 
+
+  l = loss(output, target)
+  ppl = torch.exp(l)
+
+  ppl_hist.append(ppl.item())
+
+N_hist = np.array(N_hist)
+ppl_hist = np.array(ppl_hist)
+
+print(ppl_hist)
+</div></code></pre>
+<p>Saída: <code>[1.         2.         3.         4.         5.         6.  6.99999952 8.         9.        ]</code></p>
+<p>Vemos que o PPL se comportará como $N$ para o caso de N classes com um modelo aleatório.</p>
+<h3 id="vi2c-qual-%C3%A9-o-valor-da-perplexidade-quando-o-modelo-acerta-todas-as-classes-com-100-de-probabilidade">VI.2.c) Qual é o valor da perplexidade quando o modelo acerta todas as classes com 100% de probabilidade?</h3>
+<p>Caso o modelo acerte todas as classes corretamente, a loss será 0. Então a perplexidade será $e^0$ que é 1.</p>
+<hr>
+<p>Se você respondeu corretamente as 3 questões acima, já é possível entender que a perplexidade é muito mais fácil de entender o seu significado do que o valor da Loss como entropia cruzada.</p>
+<h2 id="exerc%C3%ADcios-vi3">Exercícios VI.3:</h2>
+<h3 id="vi3a-modifique-o-c%C3%B3digo-da-se%C3%A7%C3%A3o-vi---avalia%C3%A7%C3%A3o-para-que-al%C3%A9m-de-calcular-a-acur%C3%A1cia-calcule-tamb%C3%A9m-a-perplexidade-lembrar-que-ppl--torchexpce-assim-ser%C3%A1-necess%C3%A1rio-calcular-a-entropia-cruzada-como-feito-no-la%C3%A7o-de-treinamento">VI.3.a) Modifique o código da seção <strong>VI - Avaliação</strong>, para que além de calcular a acurácia, calcule também a perplexidade. lembrar que <code>PPL = torch.exp(CE)</code>. Assim, será necessário calcular a entropia cruzada, como feito no laço de treinamento.</h3>
+<p>Código modificado:</p>
+<pre class="hljs"><code><div>model.eval()
+
+<span class="hljs-keyword">with</span> torch.no_grad():
+    correct = <span class="hljs-number">0</span>
+    total = <span class="hljs-number">0</span>
+    total_loss = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> inputs, targets <span class="hljs-keyword">in</span> test_loader:
+        inputs = inputs.to(device)
+        targets = targets.to(device)
+        logits = model(inputs)
+        predicted = torch.round(torch.sigmoid(logits.squeeze()))
+        total += targets.size(<span class="hljs-number">0</span>)
+        correct += (predicted == targets).sum().item()
+
+        total_loss += criterion(logits.squeeze(), targets.float())*targets.size(<span class="hljs-number">0</span>)
+
+    total_loss /= total
+    PPL = torch.exp(total_loss)
+
+
+    print(<span class="hljs-string">f'Test Accuracy: <span class="hljs-subst">{<span class="hljs-number">100</span> * correct / total}</span>%'</span>)
+    print(<span class="hljs-string">"Perplexity:"</span>, PPL.item())
+</div></code></pre>
+<p>Saída:</p>
+<pre class="hljs"><code><div>Test Accuracy: 88.108%
+Perplexity: 1.337630271911621
+</div></code></pre>
+<h3 id="vi3b-incorpore-agora-o-c%C3%B3digo-da-se%C3%A7%C3%A3o-vi---avalia%C3%A7%C3%A3o-durante-o-la%C3%A7o-de-treinamento-de-modo-que-ap%C3%B3s-cada-%C3%A9poca-de-treinamento-os-seguintes-valores-sejam-calculados">VI.3.b) Incorpore agora o código da seção VI - Avaliação, durante o laço de treinamento, de modo que após cada época de treinamento, os seguintes valores sejam calculados:</h3>
+<ul>
+<li>
+<p>Laço de treinamento:</p>
+<ul>
+<li>Loss no conjunto de treinamento</li>
+<li>Perplexidade no conjunto de treinamento</li>
+</ul>
+</li>
+<li>
+<p>Laço de validação:</p>
+<ul>
+<li>Loss no conjunto de teste</li>
+<li>Perplexidade no conjunto de teste</li>
+<li>Acurácia no conjunto de teste</li>
+</ul>
+</li>
+</ul>
+<p>Feito isso, pode remover a seção VI- Avaliação do notebook a ser entregue.</p>
+<p>A versão final para entregar o notebook Colab 2 deve ter:</p>
+<ul>
+<li>a versão original, porém com otimização para usar eficientemente a GPU</li>
+<li>o tokenizador melhorado</li>
+<li>LR ajustado</li>
+<li>5 épocas</li>
+<li>laço de treino e validação juntos</li>
+</ul>
+<p>Remova os trechos que foram utilizados para os exercícios, que devem estar no notebook 1.</p>
+<p><strong>Comentários finais:</strong>
+Se você conseguiu chegar até aqui, fazendo todos os exercícios, parabéns. Espero que você tenha aprendido vários conceitos importantes de treinamento de redes neurais. O valioso é que tudo o que foi visto aqui é válido tanto para modelos de alguns milhares de parâmetros como visto aqui até os modelos LLM da ordem de bilhões de parâmetros.
+Dominar técnicas de treinamento de modelos deep learning é possível apenas com muita experiência de programação e conceitos sólidos da teoria, que não é muita. É a teoria de minimização de funções pelo método do gradiente descendente. Ficou faltando entender como o gradiente é calculado, que é algo que o pytorch e outros ambientes similares conseguiram simplificar e deixá-lo quase imperceptível para o programador.
+Espero que você tenha aprendido com esses exercícios. Eles são uma amostra do que estudaremos e da forma como estudaremos no curso IA-024.
+Existem vários conceitos muito importantes que não tratamos aqui.
+Nesse curso não aceitamos alunos ouvintes, apenas alunos comprometidos com os exercícios e o aprendizado colaborativo com os colegas. Assim, a participação de todos será fundamental para o sucesso do curso.</p>
+
+</body>
+</html>

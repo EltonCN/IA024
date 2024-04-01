@@ -1,1 +1,4 @@
 *.txt.utf-8
+
+*/wandb/*/*
+*/wandb/*

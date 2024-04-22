@@ -14,3 +14,4 @@ Número|Nome|Descrição-Implementação|Artigo lido
 04|Máscara causal|Implementação completa de transformer decoder-only|“Language Models are Unsupervised Multitask Learners” (Radford at al., 2018)
 05|BERT|Finetunig do modelo BERT para realizar sentiment analisys|"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" (Devlin et al.)
 06|LoRA|Implementação da técnica LoRA para as camadas lineares e de embedding do modelo 02 (Modelo Bengio)|"LoRA: Low-Rank Adaptation of Large Language Models" (Hu et al).
+07|QLoRA|Finetuning utilizando QLoRA|"QLoRA: Efficient Finetuning of Quantized LLMs" (Dettmers et al.)

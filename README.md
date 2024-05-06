@@ -15,4 +15,5 @@ Número|Nome|Descrição-Implementação|Artigo lido
 05|BERT|Finetunig do modelo BERT para realizar sentiment analisys|"BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" (Devlin et al.)
 06|LoRA|Implementação da técnica LoRA para as camadas lineares e de embedding do modelo 02 (Modelo Bengio)|"LoRA: Low-Rank Adaptation of Large Language Models" (Hu et al).
 07|QLoRA|Finetuning utilizando QLoRA|"QLoRA: Efficient Finetuning of Quantized LLMs" (Dettmers et al.)
-08|Prompt Engineering|Engenharia de prompts para melhoria de análise de sentimento no dataset IMDB|"A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications (Sahoo et al.)
+08|Prompt Engineering|Engenharia de prompts para melhoria de análise de sentimento no dataset IMDB|"A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications" (Sahoo et al.)
+09|RAG|Reprodução da técnica de RAG "Visconde"|"Retrieval-Augmented Generation for Large Language Models: A Survey" (Gao et al.)

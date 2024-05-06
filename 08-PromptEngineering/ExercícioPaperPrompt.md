@@ -2,7 +2,7 @@ Elton Cardoso do Nascimento - 233840
 
 IA024 - Redes Neurais Profundas para Processamento de Linguagem Natural - 1s2024
 
-# Leitura do Artigo "A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications (Sahoo et al.)
+# Leitura do Artigo "A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications" (Sahoo et al.)
 
 O artigo realiza uma revisão de técnicas para realização de engenharia de prompts. Estas técnicas utilizam prompts ou formas de geração específicas com LLMs para melhorar a performance em tarefas específicas sem precisar realizar um ajuste fino na tarefa.
 

@@ -18,3 +18,4 @@ Número|Nome|Descrição-Implementação|Artigo lido
 08|Prompt Engineering|Engenharia de prompts para melhoria de análise de sentimento no dataset IMDB|"A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications" (Sahoo et al.)
 09|RAG|Reprodução da técnica de RAG "Visconde"|"Retrieval-Augmented Generation for Large Language Models: A Survey" (Gao et al.)
 10|ReAct|Implementação do ReAct para RAG|"ReAct: Synergizing Reasoning and Acting in Language Models" (Yao et al.)
+11|RAGAS|Implementação do RAGAs para avaliar o dataset IIRC|"RAGAs: Automated Evaluation of Retrieval Augmented Generation" (Es et al.)

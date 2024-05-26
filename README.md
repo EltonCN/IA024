@@ -19,3 +19,4 @@ Número|Nome|Descrição-Implementação|Artigo lido
 09|RAG|Reprodução da técnica de RAG "Visconde"|"Retrieval-Augmented Generation for Large Language Models: A Survey" (Gao et al.)
 10|ReAct|Implementação do ReAct para RAG|"ReAct: Synergizing Reasoning and Acting in Language Models" (Yao et al.)
 11|RAGAS|Implementação do RAGAs para avaliar o dataset IIRC|"RAGAs: Automated Evaluation of Retrieval Augmented Generation" (Es et al.)
+12|MultiagentDebate|--|"Improving Factuality and Reasoning in Language Models through Multiagent Debate" (Du et al.)
